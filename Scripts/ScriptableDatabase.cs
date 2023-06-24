@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ScriptableObjectDatabase
 {
     /// <summary>
-    /// base class to hold a collection of data items
+    /// class to hold a collection of scriptable items
     /// </summary>
     public class ScriptableDatabase<T> : ScriptableObject where T : ScriptableItem
     {
@@ -62,7 +62,9 @@ namespace ScriptableObjectDatabase
             m_itemsCopy = m_items.ToList();
         }
 
-
+        /// <summary>
+        /// returns a collection containing the name and the id of each item in the database
+        /// </summary>
         public IEnumerable<ScriptableItemNameId> GetItemsNameAndId()
         {
             ScriptableItemNameId[] items = new ScriptableItemNameId[m_items.Count];

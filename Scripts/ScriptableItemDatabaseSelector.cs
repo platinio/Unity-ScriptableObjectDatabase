@@ -8,6 +8,5 @@ namespace ScriptableObjectDatabase
     {
         public Type DatabaseType;
     }
-
 }
 

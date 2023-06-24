@@ -7,7 +7,6 @@ namespace ScriptableObjectDatabase
     public abstract class ScriptableItemInspector : Editor
     {
         public abstract Type DatabaseType { get; }
-      
 
         public void OnDisable()
         {

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace ScriptableObjectDatabase
 {
+    /// <summary>
+    /// Dropdown drawer to select a item form a database
+    /// </summary>
     [CustomPropertyDrawer(typeof(ScriptableItemDatabaseSelector))]
     public class ScriptableItemDatabaseSelectorDrawer : PropertyDrawer
     {
