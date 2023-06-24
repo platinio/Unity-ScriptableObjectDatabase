@@ -1,0 +1,19 @@
+{
+    "name": "ScriptableDatabaseSampleEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:98800f9f9b85032409be75562ddcba9c",
+        "GUID:6cd314133836bba46b87af07a0eafb39"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

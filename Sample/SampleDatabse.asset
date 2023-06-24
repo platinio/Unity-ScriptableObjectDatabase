@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8865952530142563684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6675c52edaaf4f8b9d58d2d76e94323b, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: 
+  Name: Sword
+  ID: 6
+  Cost: 100
+--- !u!114 &-3762223674930011415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6675c52edaaf4f8b9d58d2d76e94323b, type: 3}
+  m_Name: Shield
+  m_EditorClassIdentifier: 
+  Name: Shield
+  ID: 3
+  Cost: 50
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefd90cdb80b44628f728dcb874de82a, type: 3}
+  m_Name: SampleDatabse
+  m_EditorClassIdentifier: 
+  m_items:
+  - {fileID: 1388966726419404374}
+  - {fileID: -3762223674930011415}
+  - {fileID: 5448143699272384842}
+  - {fileID: -8865952530142563684}
+  m_itemsCopy:
+  - {fileID: 1388966726419404374}
+  - {fileID: -3762223674930011415}
+  - {fileID: 5448143699272384842}
+  - {fileID: -8865952530142563684}
+  m_id: 8
+--- !u!114 &1388966726419404374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6675c52edaaf4f8b9d58d2d76e94323b, type: 3}
+  m_Name: Practice Sword
+  m_EditorClassIdentifier: 
+  Name: Practice Sword
+  ID: 0
+  Cost: 10
+--- !u!114 &5448143699272384842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6675c52edaaf4f8b9d58d2d76e94323b, type: 3}
+  m_Name: Practice Shield
+  m_EditorClassIdentifier: 
+  Name: Practice Shield
+  ID: 5
+  Cost: 10
