@@ -17,14 +17,11 @@ namespace ScriptableObjectDatabase
         [SerializeField, HideInInspector] private uint m_id = 0;
 
         public int Count => m_items.Count;
+        public IEnumerable<T> Items => m_items;
 
         private uint GetUniqueId() => m_id++;
 
-        public T GetItem(uint id)
-        {
-            if (m_items.Count <= id) return default;
-            return m_items[(int)id];
-        }
+        public T GetItem(uint id) => m_items.Find(x => x.ID == id);
 
         public void AddItem(T item)
         {

@@ -15,6 +15,7 @@ MonoBehaviour:
   Name: Sword
   ID: 6
   Cost: 100
+  Description: 
 --- !u!114 &-3762223674930011415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30,6 +31,7 @@ MonoBehaviour:
   Name: Shield
   ID: 3
   Cost: 50
+  Description: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,7 +42,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fefd90cdb80b44628f728dcb874de82a, type: 3}
-  m_Name: SampleDatabse
+  m_Name: SampleDatabase
   m_EditorClassIdentifier: 
   m_items:
   - {fileID: 1388966726419404374}
@@ -68,6 +70,7 @@ MonoBehaviour:
   Name: Practice Sword
   ID: 0
   Cost: 10
+  Description: 
 --- !u!114 &5448143699272384842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,3 +86,4 @@ MonoBehaviour:
   Name: Practice Shield
   ID: 5
   Cost: 10
+  Description: 

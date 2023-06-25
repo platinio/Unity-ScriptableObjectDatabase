@@ -2,9 +2,6 @@
 
 namespace ScriptableObjectDatabase.Sample
 {
-    [CreateAssetMenu(menuName = "Platinio/Test Database")]
-    public class ShopItemsDatabase : ScriptableDatabase<ShopItem>
-    {
-        
-    }
+    [CreateAssetMenu(menuName = "Database/Test Database")]
+    public class ShopItemsDatabase : ScriptableDatabase<ShopItem> { }
 }

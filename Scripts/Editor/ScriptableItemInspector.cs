@@ -8,6 +8,14 @@ namespace ScriptableObjectDatabase
     {
         public abstract Type DatabaseType { get; }
 
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            
+            ScriptableItem item = target as ScriptableItem;
+            EditorGUILayout.LabelField($"Item ID: {item.ID}");
+        }
+
         public void OnDisable()
         {
             ScriptableItem item = target as ScriptableItem;
