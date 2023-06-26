@@ -5,6 +5,6 @@ namespace ScriptableObjectDatabase
     public class ScriptableItem : ScriptableObject
     {
         public string Name;
-        [HideInInspector] public uint ID;
+        [HideInInspector] public uint Id;
     }
 }

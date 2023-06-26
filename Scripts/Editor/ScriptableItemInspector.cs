@@ -13,12 +13,13 @@ namespace ScriptableObjectDatabase
             base.OnInspectorGUI();
             
             ScriptableItem item = target as ScriptableItem;
-            EditorGUILayout.LabelField($"Item ID: {item.ID}");
+            EditorGUILayout.LabelField($"Item ID: {item.Id}");
         }
 
         public void OnDisable()
         {
             ScriptableItem item = target as ScriptableItem;
+            if (item == null) return;
 
             if (item.name != item.Name)
             {

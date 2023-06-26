@@ -7,6 +7,11 @@ namespace ScriptableObjectDatabase
     public sealed class ScriptableItemDatabaseSelector : PropertyAttribute
     {
         public Type DatabaseType;
+
+        public ScriptableItemDatabaseSelector(Type databaseType)
+        {
+            DatabaseType = databaseType;
+        }
     }
 }
 

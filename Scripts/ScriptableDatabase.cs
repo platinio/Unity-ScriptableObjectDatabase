@@ -21,15 +21,18 @@ namespace ScriptableObjectDatabase
 
         private uint GetUniqueId() => m_id++;
 
-        public T GetItem(uint id) => m_items.Find(x => x.ID == id);
+        public T GetItem(uint id) => m_items.Find(x => x.Id == id);
 
         public void AddItem(T item)
         {
             if (m_items.Contains(item)) return;
 
-            item.ID = GetUniqueId();
+            item.Id = GetUniqueId();
             m_items.Add(item);
             
+            item.name = $"Item {item.Id}";
+            item.Name = item.name;
+
 #if UNITY_EDITOR
             AssetDatabase.AddObjectToAsset(item, this);
             EditorUtility.SetDirty(this);
@@ -67,8 +70,9 @@ namespace ScriptableObjectDatabase
             ScriptableItemNameId[] items = new ScriptableItemNameId[m_items.Count];
             for (uint i = 0; i < m_items.Count; i++)
             {
-                if (m_items[(int)i] == null) continue;
-                items[i] = new ScriptableItemNameId(i, m_items[(int)i]);
+                var item = m_items[(int)i];
+                if (item == null) continue;
+                items[i] = new ScriptableItemNameId(item.Id, m_items[(int)i]);
             }
 
             return items;
