@@ -6,7 +6,7 @@ namespace ScriptableObjectDatabase
 {
     public static class ScriptableDatabaseLoader
     {
-        public static object LoadDatabase(Type databaseType)
+        public static object LoadDatabase(Type databaseType, string name = null)
         {
             var guids = AssetDatabase.FindAssets($"t:{databaseType.Name}");
 
@@ -16,7 +16,10 @@ namespace ScriptableObjectDatabase
                 var database = AssetDatabase.LoadAssetAtPath(path, typeof(ScriptableObject)) as ScriptableObject;
                 if (database == null) continue;
 
-                if (database.GetType() == databaseType) return Convert.ChangeType(database, databaseType);
+                if (database.GetType() == databaseType && (name == null || database.name == name))
+                {
+                    return Convert.ChangeType(database, databaseType);
+                }
             }
 
             return null;
