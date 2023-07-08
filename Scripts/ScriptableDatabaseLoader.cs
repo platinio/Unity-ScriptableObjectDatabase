@@ -18,7 +18,12 @@ namespace ScriptableObjectDatabase
 
                 if (database.GetType() == databaseType && (name == null || database.name == name))
                 {
-                    return Convert.ChangeType(database, databaseType);
+                    var obj = Convert.ChangeType(database, databaseType);
+                    
+                    var methodIndo = database.GetType().GetMethod("IsEnabled");
+                    var result = methodIndo.Invoke(obj, null);
+
+                    if (result is bool isEnable && isEnable) return obj;
                 }
             }
 

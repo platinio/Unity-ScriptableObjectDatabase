@@ -13,6 +13,7 @@ namespace ScriptableObjectDatabase
     public class ScriptableDatabase<T> : ScriptableObject where T : ScriptableItem
     {
         [SerializeField] private List<T> m_items;
+        [SerializeField] private bool m_isEnabled = true;
         [SerializeField, HideInInspector] private List<T> m_itemsCopy;
         [SerializeField, HideInInspector] private uint m_id = 0;
 
@@ -23,6 +24,8 @@ namespace ScriptableObjectDatabase
 
         public T GetItem(uint id) => m_items.Find(x => x.Id == id);
 
+        public bool IsEnabled() => m_isEnabled;
+        
         public void AddItem(T item)
         {
             if (m_items.Contains(item)) return;
