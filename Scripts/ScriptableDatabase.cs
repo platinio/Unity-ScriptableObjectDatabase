@@ -47,6 +47,8 @@ namespace ScriptableObjectDatabase
 #if UNITY_EDITOR
         public void Clean()
         {
+            if (m_items == null || m_items.Count == 0) return;
+            
             m_items = m_items.Distinct().ToList();
             if (m_items.Count >= m_itemsCopy.Count) return;
 
@@ -62,6 +64,7 @@ namespace ScriptableObjectDatabase
 
         public void UpdateItemsCopy()
         {
+            if (m_items == null || m_items.Count == 0) return;
             m_itemsCopy = m_items.ToList();
         }
 
