@@ -46,9 +46,12 @@ namespace ScriptableObjectDatabase
             var result = methodIndo.Invoke(database, null);
             
             var items = result as IEnumerable<ScriptableItemNameId>;
+            if (items == null) return;
 
             foreach (var item in items)
             {
+                if (item == null) continue;
+                
                 menu.AddItem(new GUIContent(item.Name), false, data =>
                 {
                     OnDropDownSelectionChanged(property, database, (uint)data);
