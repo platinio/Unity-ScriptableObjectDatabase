@@ -12,7 +12,7 @@ namespace ScriptableObjectDatabase
     /// </summary>
     public class ScriptableDatabase<T> : ScriptableObject where T : ScriptableItem
     {
-        [SerializeField] private List<T> m_items;
+        [SerializeField] protected List<T> m_items;
         [SerializeField] private bool m_isEnabled = true;
         [SerializeField, HideInInspector] private List<T> m_itemsCopy;
         [SerializeField, HideInInspector] private uint m_id = 0;
