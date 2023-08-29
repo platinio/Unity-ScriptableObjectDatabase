@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor;
 #endif
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjectDatabase
 {
@@ -12,26 +13,26 @@ namespace ScriptableObjectDatabase
     /// </summary>
     public class ScriptableDatabase<T> : ScriptableObject where T : ScriptableItem
     {
-        [SerializeField] protected List<T> m_items;
-        [SerializeField] private bool m_isEnabled = true;
-        [SerializeField, HideInInspector] private List<T> m_itemsCopy;
-        [SerializeField, HideInInspector] private uint m_id = 0;
+        [SerializeField] protected List<T> items;
+        [SerializeField] private bool isEnabled = true;
+        [SerializeField, HideInInspector] private List<T> itemsCopy;
+        [SerializeField, HideInInspector] private uint id = 0;
 
-        public int Count => m_items.Count;
-        public IEnumerable<T> Items => m_items;
+        public int Count => items.Count;
+        public IEnumerable<T> Items => items;
 
-        private uint GetUniqueId() => m_id++;
+        private uint GetUniqueId() => id++;
 
-        public T GetItem(uint id) => m_items.Find(x => x.Id == id);
+        public T GetItem(uint id) => items.Find(x => x.Id == id);
 
-        public bool IsEnabled() => m_isEnabled;
+        public bool IsEnabled() => isEnabled;
         
         public void AddItem(T item)
         {
-            if (m_items.Contains(item)) return;
+            if (items.Contains(item)) return;
 
             item.Id = GetUniqueId();
-            m_items.Add(item);
+            items.Add(item);
             
             item.name = $"Item {item.Id}";
             item.Name = item.name;
@@ -42,19 +43,19 @@ namespace ScriptableObjectDatabase
 #endif
         }
 
-        public bool Contains(T item) => m_items.Contains(item);
+        public bool Contains(T item) => items.Contains(item);
 
 #if UNITY_EDITOR
         public void Clean()
         {
-            if (m_items == null || m_items.Count == 0) return;
+            if (items == null || items.Count == 0) return;
             
-            m_items = m_items.Distinct().ToList();
-            if (m_items.Count >= m_itemsCopy.Count) return;
+            items = items.Distinct().ToList();
+            if (items.Count >= itemsCopy.Count) return;
 
-            foreach (var item in m_itemsCopy)
+            foreach (var item in itemsCopy)
             {
-                if (!m_items.Contains(item)) DestroyImmediate(item, true);
+                if (!items.Contains(item)) DestroyImmediate(item, true);
             }
             
             EditorUtility.SetDirty(this);
@@ -64,8 +65,8 @@ namespace ScriptableObjectDatabase
 
         public void UpdateItemsCopy()
         {
-            if (m_items == null || m_items.Count == 0) return;
-            m_itemsCopy = m_items.ToList();
+            if (items == null || items.Count == 0) return;
+            itemsCopy = items.ToList();
         }
 
         /// <summary>
@@ -73,12 +74,12 @@ namespace ScriptableObjectDatabase
         /// </summary>
         public IEnumerable<ScriptableItemNameId> GetItemsNameAndId()
         {
-            ScriptableItemNameId[] items = new ScriptableItemNameId[m_items.Count];
-            for (uint i = 0; i < m_items.Count; i++)
+            ScriptableItemNameId[] items = new ScriptableItemNameId[this.items.Count];
+            for (uint i = 0; i < this.items.Count; i++)
             {
-                var item = m_items[(int)i];
+                var item = this.items[(int)i];
                 if (item == null) continue;
-                items[i] = new ScriptableItemNameId(item.Id, m_items[(int)i]);
+                items[i] = new ScriptableItemNameId(item.Id, this.items[(int)i]);
             }
 
             return items;
