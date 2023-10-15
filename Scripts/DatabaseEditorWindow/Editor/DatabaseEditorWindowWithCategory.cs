@@ -12,7 +12,7 @@ namespace ScriptableObjectDatabase
         where CategoryDatabase : ScriptableDatabase<CategoryEntry> 
         where CategoryEntry : ScriptableItem
     {
-        private static CategoryEntry SelectedCategory = null;
+        protected static CategoryEntry SelectedCategory = null;
         
         public override void CreateGUI()
         {

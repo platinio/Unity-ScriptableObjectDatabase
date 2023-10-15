@@ -43,7 +43,7 @@ namespace ScriptableObjectDatabase
             listView.selectionChanged += OnEntrySelectionChanged;
         }
 
-        protected virtual IEnumerable<Entry> FilterEntries(IEnumerable<Entry> entries) => entries;
+        protected abstract IEnumerable<Entry> FilterEntries(IEnumerable<Entry> entries);
 
         private void OnEntrySelectionChanged(IEnumerable<object> selection)
         {
