@@ -12,9 +12,12 @@ namespace ScriptableObjectDatabase
         where Database : ScriptableDatabase<Entry> 
         where Entry : ScriptableItem
     {
+        [SerializeField] protected VisualTreeAsset editorTreeAsset;
         [SerializeField] protected VisualTreeAsset visualTreeAsset = default;
         [SerializeField] protected VisualTreeAsset listElementTreeAsset;
-       
+
+        private InspectorElement inspectorElement = null;
+        
         public virtual void CreateGUI()
         {
             // Each editor window contains a root VisualElement object
@@ -48,9 +51,12 @@ namespace ScriptableObjectDatabase
         private void OnEntrySelectionChanged(IEnumerable<object> selection)
         {
             var entry = selection.FirstOrDefault() as Entry;
-            var databaseEditor = rootVisualElement.Q<VisualElement>("SkillEditor");
-            
-            databaseEditor.Bind(new SerializedObject(entry));
+
+            var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
+            if (inspectorElement != null) databaseEditor.Remove(inspectorElement);
+
+            inspectorElement = new InspectorElement(new SerializedObject(entry));
+            databaseEditor.Add(inspectorElement);
         }
 
         private void BindEntryItem(VisualElement element, int index)

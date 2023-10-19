@@ -6,14 +6,12 @@ using UnityEngine.UIElements;
 
 namespace ScriptableObjectDatabase
 {
-    public abstract class DatabaseEditorWindowWithCategory<Database, Entry, CategoryDatabase, CategoryEntry> : DatabaseEditorWindow<Database, Entry>
+    public abstract class DatabaseEditorWindowWithCategory<Database, Entry> : DatabaseEditorWindow<Database, Entry>
         where Database : ScriptableDatabase<Entry> 
         where Entry : ScriptableItem
-        where CategoryDatabase : ScriptableDatabase<CategoryEntry> 
-        where CategoryEntry : ScriptableItem
     {
-        protected static CategoryEntry SelectedCategory = null;
-        
+        protected static Category selectedCategory = null;
+       
         public override void CreateGUI()
         {
             // Each editor window contains a root VisualElement object
@@ -29,31 +27,28 @@ namespace ScriptableObjectDatabase
         
         private void CreateCategoryListGUI(VisualElement root)
         {
-            var categoryDatabase = ScriptableDatabaseLoader.LoadDatabase(typeof(CategoryDatabase)) as CategoryDatabase;
-
             var listView = root.Q("SkillClassTypeListView") as ListView;
             listView.Clear();
             listView.makeItem = MakeCategoryTypeItem;
             listView.bindItem = BindCategoryTypeItem;
-            listView.itemsSource = (IList)categoryDatabase.Items;
+            listView.itemsSource = GetDatabaseCategories();
             listView.selectionType = SelectionType.Single;
             listView.selectionChanged += OnCategorySelectionChanged;
         }
-        
+
         private VisualElement MakeCategoryTypeItem() => listElementTreeAsset.CloneTree();
         
         private void BindCategoryTypeItem(VisualElement element, int index)
         {
-            var categoryDatabase = ScriptableDatabaseLoader.LoadDatabase(typeof(CategoryDatabase)) as CategoryDatabase;
-            var item = categoryDatabase.Items.ToArray()[index];
+            var item = GetDatabaseCategories()[index];
         
             element.Q<Label>().text = item.Name;
-            element.Q("Icon").style.backgroundImage = new StyleBackground(GetCategoryIcon(item));
+            element.Q("Icon").style.backgroundImage = new StyleBackground(item.Icon);
         }
         
         private void OnCategorySelectionChanged(IEnumerable<object> selection)
         {
-            SelectedCategory = selection.FirstOrDefault() as CategoryEntry;
+            selectedCategory = selection.FirstOrDefault() as Category;
         
             var skillDatabase = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             IEnumerable<Entry> items = skillDatabase.Items;
@@ -64,9 +59,22 @@ namespace ScriptableObjectDatabase
             listView.itemsSource = (IList)items;
             listView.RefreshItems();
         }
+        
+        protected abstract List<Category> GetDatabaseCategories();
+    }
 
-        protected abstract Sprite GetCategoryIcon(CategoryEntry categoryEntry);
+    public class Category
+    {
+        public string ID;
+        public string Name;
+        public Sprite Icon;
 
+        public Category(string id, string name, Sprite icon)
+        {
+            ID = id;
+            Name = name;
+            Icon = icon;
+        }
     }
 
 }

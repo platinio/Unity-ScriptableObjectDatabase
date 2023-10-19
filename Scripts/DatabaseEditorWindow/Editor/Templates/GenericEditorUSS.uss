@@ -1,0 +1,11 @@
+.input-field {
+    margin-top: 10px;
+}
+
+.unity-base-text-field__input {
+    flex-grow: 1;
+}
+
+.unity-base-field__label {
+    max-width: 0.5%;
+}
