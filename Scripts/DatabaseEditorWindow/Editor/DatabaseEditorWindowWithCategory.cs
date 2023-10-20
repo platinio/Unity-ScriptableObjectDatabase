@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -23,8 +24,9 @@ namespace ScriptableObjectDatabase
 
             CreateCategoryListGUI(root);
             CreateDatabaseListGUI(root);
+            SetupToolBar(root.Q<ToolbarMenu>());
         }
-        
+
         private void CreateCategoryListGUI(VisualElement root)
         {
             var listView = root.Q("SkillClassTypeListView") as ListView;
@@ -49,7 +51,11 @@ namespace ScriptableObjectDatabase
         private void OnCategorySelectionChanged(IEnumerable<object> selection)
         {
             selectedCategory = selection.FirstOrDefault() as Category;
-        
+            UpdateSelectedCategory();
+        }
+
+        protected void UpdateSelectedCategory()
+        {
             var skillDatabase = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             IEnumerable<Entry> items = skillDatabase.Items;
         
@@ -59,7 +65,7 @@ namespace ScriptableObjectDatabase
             listView.itemsSource = (IList)items;
             listView.RefreshItems();
         }
-        
+
         protected abstract List<Category> GetDatabaseCategories();
     }
 

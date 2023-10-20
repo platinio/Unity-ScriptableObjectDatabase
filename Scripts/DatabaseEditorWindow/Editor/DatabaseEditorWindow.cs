@@ -28,6 +28,18 @@ namespace ScriptableObjectDatabase
             root.Add(labelFromUXML);
 
             CreateDatabaseListGUI(root);
+            SetupToolBar(root.Q<ToolbarMenu>());
+        }
+
+        protected virtual void SetupToolBar(ToolbarMenu toolbarMenu)
+        {
+            toolbarMenu.menu.AppendAction("Save", Save);
+        }
+        
+        private void Save(DropdownMenuAction dropdownMenuAction)
+        {
+            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+            AssetDatabase.SaveAssetIfDirty(database);
         }
 
         protected void CreateDatabaseListGUI(VisualElement root)
