@@ -49,7 +49,7 @@ namespace ScriptableObjectDatabase
 
             items = FilterEntries(items);
             
-            var listView = root.Q("SkillListView") as ListView;
+            var listView = root.Q("ItemListView") as ListView;
             listView.Clear();
             listView.makeItem = MakeSkillItem;
             listView.bindItem = BindEntryItem;

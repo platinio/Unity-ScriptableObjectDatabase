@@ -29,7 +29,7 @@ namespace ScriptableObjectDatabase
 
         private void CreateCategoryListGUI(VisualElement root)
         {
-            var listView = root.Q("SkillClassTypeListView") as ListView;
+            var listView = root.Q("CategoryListView") as ListView;
             listView.Clear();
             listView.makeItem = MakeCategoryTypeItem;
             listView.bindItem = BindCategoryTypeItem;
@@ -59,7 +59,7 @@ namespace ScriptableObjectDatabase
             var skillDatabase = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             IEnumerable<Entry> items = skillDatabase.Items;
         
-            var listView = rootVisualElement.Q("SkillListView") as ListView;
+            var listView = rootVisualElement.Q("ItemListView") as ListView;
             items = FilterEntries(items);
 
             listView.itemsSource = (IList)items;
