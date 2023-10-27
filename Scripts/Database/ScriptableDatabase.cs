@@ -43,6 +43,18 @@ namespace ScriptableObjectDatabase
 #endif
         }
 
+        public void RemoveItem(T item)
+        {
+            if (!Contains(item)) return;
+            items.Remove(item);
+            UpdateItemsCopy();
+            
+            #if UNITY_EDITOR
+            DestroyImmediate(item, true);
+            EditorUtility.SetDirty(this);
+            #endif
+        }
+
         public bool Contains(T item) => items.Contains(item);
 
 #if UNITY_EDITOR

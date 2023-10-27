@@ -54,6 +54,20 @@ namespace ScriptableObjectDatabase
             UpdateSelectedCategory();
         }
 
+        protected override void DuplicateEntry(DropdownMenuAction dropdownMenuAction)
+        {
+            base.DuplicateEntry(dropdownMenuAction);
+            if (selectedItem != null) UpdateSelectedCategory();
+        }
+
+        protected override void RemoveEntry(DropdownMenuAction dropdownMenuAction)
+        {
+            if (selectedItem == null) return; 
+            
+            base.RemoveEntry(dropdownMenuAction);
+            UpdateSelectedCategory();
+        }
+
         protected void UpdateSelectedCategory()
         {
             var skillDatabase = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;

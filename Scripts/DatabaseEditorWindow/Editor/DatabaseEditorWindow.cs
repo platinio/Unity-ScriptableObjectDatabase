@@ -17,6 +17,7 @@ namespace ScriptableObjectDatabase
         [SerializeField] protected VisualTreeAsset listElementTreeAsset;
 
         private InspectorElement inspectorElement = null;
+        protected Entry selectedItem;
         
         public virtual void CreateGUI()
         {
@@ -33,9 +34,32 @@ namespace ScriptableObjectDatabase
 
         protected virtual void SetupToolBar(ToolbarMenu toolbarMenu)
         {
+            toolbarMenu.menu.AppendAction("Duplicate Selected Item", DuplicateEntry);
+            toolbarMenu.menu.AppendAction("Remove Selected Item", RemoveEntry);
             toolbarMenu.menu.AppendAction("Save", Save);
         }
-        
+
+        protected virtual void DuplicateEntry(DropdownMenuAction dropdownMenuAction)
+        {
+            if (selectedItem == null) return;
+            
+            var clone = Instantiate(selectedItem);
+            
+            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+            database.AddItem(clone);
+        }
+
+        protected virtual void RemoveEntry(DropdownMenuAction dropdownMenuAction)
+        {
+            if (selectedItem == null) return;
+            
+            var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
+            if (inspectorElement != null) databaseEditor.Remove(inspectorElement);
+            
+            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+            database.RemoveItem(selectedItem);
+        }
+
         private void Save(DropdownMenuAction dropdownMenuAction)
         {
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
@@ -63,6 +87,7 @@ namespace ScriptableObjectDatabase
         private void OnEntrySelectionChanged(IEnumerable<object> selection)
         {
             var entry = selection.FirstOrDefault() as Entry;
+            selectedItem = entry;
 
             var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
             if (inspectorElement != null) databaseEditor.Remove(inspectorElement);
