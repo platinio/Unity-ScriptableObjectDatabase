@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEditor;
 #endif
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ScriptableObjectDatabase
 {
