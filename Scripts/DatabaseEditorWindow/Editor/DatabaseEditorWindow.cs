@@ -34,9 +34,17 @@ namespace ScriptableObjectDatabase
 
         protected virtual void SetupToolBar(ToolbarMenu toolbarMenu)
         {
+            toolbarMenu.menu.AppendAction("Create New Item", CreateNewEntry);
             toolbarMenu.menu.AppendAction("Duplicate Selected Item", DuplicateEntry);
             toolbarMenu.menu.AppendAction("Remove Selected Item", RemoveEntry);
             toolbarMenu.menu.AppendAction("Save", Save);
+        }
+        
+        protected virtual void CreateNewEntry(DropdownMenuAction dropdownMenuAction)
+        {
+            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+            database.AddItem(CreateInstance<Entry>());
+            CreateDatabaseListGUI(rootVisualElement);
         }
 
         protected virtual void DuplicateEntry(DropdownMenuAction dropdownMenuAction)
@@ -90,7 +98,7 @@ namespace ScriptableObjectDatabase
             selectedItem = entry;
 
             var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
-            if (inspectorElement != null) databaseEditor.Remove(inspectorElement);
+            if (inspectorElement != null && databaseEditor.Contains(inspectorElement)) databaseEditor.Remove(inspectorElement);
 
             inspectorElement = new InspectorElement(new SerializedObject(entry));
             databaseEditor.Add(inspectorElement);
