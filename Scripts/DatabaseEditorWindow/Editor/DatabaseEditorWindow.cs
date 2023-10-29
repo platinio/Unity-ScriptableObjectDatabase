@@ -44,7 +44,15 @@ namespace ScriptableObjectDatabase
         {
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             database.AddItem(CreateInstance<Entry>());
+            
             CreateDatabaseListGUI(rootVisualElement);
+            RebuildDatabaseList(rootVisualElement);
+        }
+
+        private void RebuildDatabaseList(VisualElement root)
+        {
+            var listView = root.Q("ItemListView") as ListView;
+            listView.Rebuild();
         }
 
         protected virtual void DuplicateEntry(DropdownMenuAction dropdownMenuAction)
@@ -55,6 +63,9 @@ namespace ScriptableObjectDatabase
             
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             database.AddItem(clone);
+            
+            CreateDatabaseListGUI(rootVisualElement);
+            RebuildDatabaseList(rootVisualElement);
         }
 
         protected virtual void RemoveEntry(DropdownMenuAction dropdownMenuAction)
@@ -66,12 +77,19 @@ namespace ScriptableObjectDatabase
             
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             database.RemoveItem(selectedItem);
+            
+            CreateDatabaseListGUI(rootVisualElement);
+            RebuildDatabaseList(rootVisualElement);
         }
 
         private void Save(DropdownMenuAction dropdownMenuAction)
         {
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+            database.OnSave();
             AssetDatabase.SaveAssetIfDirty(database);
+            
+            CreateDatabaseListGUI(rootVisualElement);
+            RebuildDatabaseList(rootVisualElement);
         }
 
         protected void CreateDatabaseListGUI(VisualElement root)

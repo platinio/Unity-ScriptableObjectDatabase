@@ -6,5 +6,10 @@ namespace ScriptableObjectDatabase
     {
         public string Name;
         [HideInInspector] public uint Id;
+
+        public virtual void OnSave()
+        {
+            name = Name;
+        }
     }
 }

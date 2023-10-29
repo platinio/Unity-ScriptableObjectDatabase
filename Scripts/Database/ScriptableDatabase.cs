@@ -25,7 +25,15 @@ namespace ScriptableObjectDatabase
         public T GetItem(uint id) => items.Find(x => x.Id == id);
 
         public bool IsEnabled() => isEnabled;
-        
+
+        public void OnSave()
+        {
+            foreach (var item in items)
+            {
+                item.OnSave();
+            }
+        }
+
         public void AddItem(T item)
         {
             if (items.Contains(item)) return;
