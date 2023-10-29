@@ -110,7 +110,7 @@ namespace ScriptableObjectDatabase
 
         protected abstract IEnumerable<Entry> FilterEntries(IEnumerable<Entry> entries);
 
-        private void OnEntrySelectionChanged(IEnumerable<object> selection)
+        protected virtual void OnEntrySelectionChanged(IEnumerable<object> selection)
         {
             var entry = selection.FirstOrDefault() as Entry;
             selectedItem = entry;
