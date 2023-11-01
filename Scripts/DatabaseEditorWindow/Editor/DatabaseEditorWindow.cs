@@ -12,7 +12,6 @@ namespace ScriptableObjectDatabase
         where Database : ScriptableDatabase<Entry> 
         where Entry : ScriptableItem
     {
-        [SerializeField] protected VisualTreeAsset editorTreeAsset;
         [SerializeField] protected VisualTreeAsset visualTreeAsset = default;
         [SerializeField] protected VisualTreeAsset listElementTreeAsset;
 
