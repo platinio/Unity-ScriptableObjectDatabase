@@ -100,7 +100,7 @@ namespace ScriptableObjectDatabase
             
             var listView = root.Q("ItemListView") as ListView;
             listView.Clear();
-            listView.makeItem = MakeSkillItem;
+            listView.makeItem = MakeItem;
             listView.bindItem = BindEntryItem;
             listView.itemsSource = (IList)items;
             listView.selectionType = SelectionType.Single;
@@ -136,6 +136,6 @@ namespace ScriptableObjectDatabase
 
         protected abstract Sprite GetEntryIcon(Entry entry);
         
-        private VisualElement MakeSkillItem() => listElementTreeAsset.CloneTree();
+        private VisualElement MakeItem() => listElementTreeAsset.CloneTree();
     }
 }
