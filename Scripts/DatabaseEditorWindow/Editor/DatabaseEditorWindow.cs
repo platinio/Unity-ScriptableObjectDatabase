@@ -48,7 +48,7 @@ namespace ScriptableObjectDatabase
             RebuildDatabaseList(rootVisualElement);
         }
 
-        private void RebuildDatabaseList(VisualElement root)
+        protected void RebuildDatabaseList(VisualElement root)
         {
             var listView = root.Q("ItemListView") as ListView;
             listView.Rebuild();
@@ -81,7 +81,7 @@ namespace ScriptableObjectDatabase
             RebuildDatabaseList(rootVisualElement);
         }
 
-        private void Save(DropdownMenuAction dropdownMenuAction)
+        protected void Save(DropdownMenuAction dropdownMenuAction)
         {
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             database.OnSave();
