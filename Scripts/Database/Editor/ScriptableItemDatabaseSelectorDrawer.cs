@@ -48,6 +48,14 @@ namespace ScriptableObjectDatabase
             var items = result as IEnumerable<ScriptableItemNameId>;
             if (items == null) return;
 
+            //add null option
+            menu.AddItem(new GUIContent("Null"), false, data =>
+            {
+                property.serializedObject.Update();
+                property.objectReferenceValue = null;
+                property.serializedObject.ApplyModifiedProperties();
+            }, -1);
+            
             foreach (var item in items)
             {
                 if (item == null) continue;
