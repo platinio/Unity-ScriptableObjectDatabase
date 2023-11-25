@@ -20,6 +20,18 @@ namespace ScriptableObjectDatabase
         
         public virtual void CreateGUI()
         {
+            if (visualTreeAsset == null)
+            {
+                Debug.LogError($"visualTreeAsset is null for database editor of type {typeof(Database)}");
+                return;
+            }
+            
+            if (listElementTreeAsset == null)
+            {
+                Debug.LogError($"listElementTreeAsset is null for database editor of type {typeof(Database)}");
+                return;
+            }
+
             // Each editor window contains a root VisualElement object
             VisualElement root = rootVisualElement;
 

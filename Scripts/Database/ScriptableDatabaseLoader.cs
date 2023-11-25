@@ -27,6 +27,7 @@ namespace ScriptableObjectDatabase
                 }
             }
 
+            Debug.LogError($"Can't find a database of type {databaseType} do you have one created and enabled?");
             return null;
         }
     }
