@@ -5,11 +5,21 @@ namespace ScriptableObjectDatabase
     public class ScriptableItem : ScriptableObject
     {
         public string Name;
-        [HideInInspector] public uint Id;
 
+        [SerializeField] private Sprite icon;
+        [SerializeField, HideInInspector] protected uint id;
+
+        public uint Id => id;
+        public Sprite Icon => icon;
+        
         public virtual void OnSave()
         {
             name = Name;
+        }
+
+        public void SetId(uint id)
+        {
+            this.id = id;
         }
     }
 }

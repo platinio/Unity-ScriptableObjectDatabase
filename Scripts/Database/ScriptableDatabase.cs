@@ -22,7 +22,7 @@ namespace ScriptableObjectDatabase
 
         private uint GetUniqueId() => id++;
 
-        public T GetItem(uint id) => items.Find(x => x.Id == id);
+        public T GetItem(uint itemId) => items.Find(x => x.Id == itemId);
 
         public bool IsEnabled() => isEnabled;
 
@@ -38,7 +38,7 @@ namespace ScriptableObjectDatabase
         {
             if (items.Contains(item)) return;
 
-            item.Id = GetUniqueId();
+            item.SetId(GetUniqueId());
             items.Add(item);
             
             item.name = $"Item {item.Id}";
@@ -88,32 +88,7 @@ namespace ScriptableObjectDatabase
             itemsCopy = items.ToList();
         }
 
-        /// <summary>
-        /// returns a collection containing the name and the id of each item in the database
-        /// </summary>
-        public IEnumerable<ScriptableItemNameId> GetItemsNameAndId()
-        {
-            ScriptableItemNameId[] items = new ScriptableItemNameId[this.items.Count];
-            for (uint i = 0; i < this.items.Count; i++)
-            {
-                var item = this.items[(int)i];
-                if (item == null) continue;
-                items[i] = new ScriptableItemNameId(item.Id, this.items[(int)i]);
-            }
+        public IEnumerable<T> GetItems() => items;
 
-            return items;
-        }
-    }
-
-    public class ScriptableItemNameId
-    {
-        public uint Id;
-        public string Name;
-
-        public ScriptableItemNameId(uint id, ScriptableItem scriptableItem)
-        {
-            Id = id;
-            Name = scriptableItem.name;
-        }
     }
 }

@@ -143,11 +143,10 @@ namespace ScriptableObjectDatabase
             var item = items.ToArray()[index];
             
             element.Q<Label>().text = item.Name;
-            element.Q("Icon").style.backgroundImage = new StyleBackground(GetEntryIcon(item));
+            element.Q("Icon").style.backgroundImage = new StyleBackground(item.Icon);
         }
 
-        protected abstract Sprite GetEntryIcon(Entry entry);
-        
+
         private VisualElement MakeItem() => listElementTreeAsset.CloneTree();
     }
 }

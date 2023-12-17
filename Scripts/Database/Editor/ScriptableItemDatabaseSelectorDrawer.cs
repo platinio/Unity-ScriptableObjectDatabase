@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Platinio;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace ScriptableObjectDatabase
 {
@@ -26,6 +30,7 @@ namespace ScriptableObjectDatabase
 
             EditorGUI.EndProperty();
         }
+        
 
         private void DrawDatabaseDropDown(Rect rect, SerializedProperty property)
         {
@@ -36,6 +41,33 @@ namespace ScriptableObjectDatabase
                 return;
             }
 
+            var attr = attribute as ScriptableItemDatabaseSelector;
+            var database = ScriptableDatabaseLoader.LoadDatabase(attr.DatabaseType);
+            if (database == null) return;
+
+            GenericMenu menu = new GenericMenu();
+
+            var methodIndo = database.GetType().GetMethod("GetItems");
+            var result = methodIndo.Invoke(database, null);
+            
+          
+            
+            var items = result as IEnumerable<ScriptableItem>;
+            if (items == null) return;
+            
+            List<DropdownItem<ScriptableItem>> dropDownItems = new();
+
+            foreach (var item in items)
+            {
+                dropDownItems.Add(new DropdownItem<ScriptableItem>(item.Name, null, item));
+            }
+            
+            var dropdown = ScriptableObject.CreateInstance<AdvancedDropdown>();
+            dropdown.ShowAsDropDown(new Rect(GetCurrentMousePosition(), new Vector2(0.0f, 0.0f)), new Vector2(500.0f, 500.0f));
+            dropdown.ShowDropdown(dropDownItems);
+            
+
+            /*
             var attr = attribute as ScriptableItemDatabaseSelector;
             var database = ScriptableDatabaseLoader.LoadDatabase(attr.DatabaseType);
             if (database == null) return;
@@ -66,8 +98,23 @@ namespace ScriptableObjectDatabase
                 }, item.Id);
             }
 
-            menu.DropDown(rect);
+            menu.DropDown(rect);*/
         }
+        
+        private static Func<Vector2> _getCurrentMousePosition;
+        
+        private Vector2 GetCurrentMousePosition()
+        {
+            if (_getCurrentMousePosition == null)
+            {
+                var currentMousePositionMethod = typeof(Editor).GetMethod("GetCurrentMousePosition", BindingFlags.NonPublic | BindingFlags.Static);
+                Assert.IsNotNull(currentMousePositionMethod);
+                _getCurrentMousePosition = (Func<Vector2>) Delegate.CreateDelegate(typeof(Func<Vector2>), currentMousePositionMethod);
+            }
+
+            return _getCurrentMousePosition();
+        }
+        
 
         private string GetSelectedItemName(SerializedProperty property)
         {
