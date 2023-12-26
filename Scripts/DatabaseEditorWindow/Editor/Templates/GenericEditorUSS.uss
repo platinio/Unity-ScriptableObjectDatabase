@@ -6,6 +6,6 @@
     flex-grow: 1;
 }
 
-.unity-base-field__label {
-    max-width: 0.5%;
+.unity-base-field__label {    
+    min-width: 80%;
 }
