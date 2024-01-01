@@ -4,5 +4,5 @@ using UnityEditor;
 namespace ScriptableObjectDatabase
 {
     [CustomEditor(typeof(ShopItemsDatabase))]
-    public class ShopItemsDatabaseInspector : ScriptableDatabaseInspector<ShopItem> { }
+    public class ShopItemsDatabaseEditor : ScriptableDatabaseEditor<ShopItem> { }
 }

@@ -5,7 +5,7 @@ using UnityEditor;
 namespace ScriptableObjectDatabase
 {
     [CustomEditor(typeof(ShopItem))]
-    public class ShopItemInspector : ScriptableItemInspector
+    public class ShopItemEditor : ScriptableItemEditor
     {
         public override Type DatabaseType => typeof(ShopItemsDatabase);
     }

@@ -4,7 +4,7 @@ using Object = UnityEngine.Object;
 
 namespace ScriptableObjectDatabase
 {
-    public abstract class ScriptableItemInspector : Editor
+    public abstract class ScriptableItemEditor : Editor
     {
         public abstract Type DatabaseType { get; }
 

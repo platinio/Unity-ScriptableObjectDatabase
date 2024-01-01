@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace ScriptableObjectDatabase
 {
-    public class ScriptableDatabaseInspector<T> : Editor where T : ScriptableItem
+    public class ScriptableDatabaseEditor<T> : Editor where T : ScriptableItem
     {
         public override void OnInspectorGUI()
         {
