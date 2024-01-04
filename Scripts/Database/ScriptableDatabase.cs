@@ -24,6 +24,11 @@ namespace ScriptableObjectDatabase
 
         public T GetItem(uint itemId) => items.Find(x => x.Id == itemId);
 
+        public T GetItemByName(string itemName)
+        {
+            return items.Find(x => x.name == itemName);
+        }
+
         public bool IsEnabled() => isEnabled;
 
         public void OnSave()
