@@ -89,6 +89,8 @@ namespace ScriptableObjectDatabase
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             database.RemoveItem(selectedItem);
             
+            DestroyImmediate(selectedItem, true);
+            
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
         }
