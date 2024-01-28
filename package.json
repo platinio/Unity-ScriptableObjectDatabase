@@ -6,8 +6,12 @@
   "unity": "2022.3",
   "description": "", 
   "license": "MIT",
-  "dependencies": 
-  {
-    "com.platinio.advanceddropdown": "https://github.com/platinio/Unity-AdvancedDropdown.git"
-  }  
+  "dependencies": { },
+  "samples": [
+    {
+      "displayName": "Sample Shop Database",
+      "description": "",
+      "path": "Samples~/SampleShopDatabase"
+    }
+    ]
 }
