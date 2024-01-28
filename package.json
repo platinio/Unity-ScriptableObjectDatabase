@@ -1,0 +1,13 @@
+{
+  "name": "com.scriptableobjectdatabase",
+  "displayName": "Scriptable Object Database",
+  "author": { "name": "Platinio", "url": "https://github.com/platinio" },
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "", 
+  "license": "MIT",
+  "dependencies": 
+  {
+    "com.platinio.advanceddropdown": "https://github.com/platinio/Unity-AdvancedDropdown.git"
+  }  
+}

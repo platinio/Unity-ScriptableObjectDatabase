@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ScriptableObjectDatabase
+namespace Platinio.ScriptableObjectDatabase
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public sealed class ScriptableItemDatabaseSelector : PropertyAttribute

@@ -4,7 +4,7 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-namespace ScriptableObjectDatabase
+namespace Platinio.ScriptableObjectDatabase
 {
     public static class ScriptableDatabaseLoader
     {

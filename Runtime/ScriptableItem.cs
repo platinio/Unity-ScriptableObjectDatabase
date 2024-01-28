@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ScriptableObjectDatabase
+namespace Platinio.ScriptableObjectDatabase
 {
     public class ScriptableItem : ScriptableObject
     {

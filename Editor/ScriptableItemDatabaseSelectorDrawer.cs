@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Platinio;
+using Platinio.AdvancedDropdown;
 using UnityEditor;
 using UnityEngine;
 
-namespace ScriptableObjectDatabase
+namespace Platinio.ScriptableObjectDatabase
 {
     /// <summary>
     /// Dropdown drawer to select a item form a database
@@ -38,7 +38,7 @@ namespace ScriptableObjectDatabase
 
             var dropDownItems = GetDropdownItems(property);
 
-            AdvancedDropdown.ShowDropdown(dropDownItems, delegate(ScriptableItem item)
+            AdvancedDropdownEditorWindow.ShowDropdown(dropDownItems, delegate(ScriptableItem item)
             {
                 UpdateDropdownValue(property, item);
             });

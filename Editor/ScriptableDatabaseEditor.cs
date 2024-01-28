@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace ScriptableObjectDatabase
+namespace Platinio.ScriptableObjectDatabase
 {
-    public class ScriptableDatabaseEditor<T> : Editor where T : ScriptableItem
+    public class ScriptableDatabaseEditor<T> : UnityEditor.Editor where T : ScriptableItem
     {
         public override void OnInspectorGUI()
         {

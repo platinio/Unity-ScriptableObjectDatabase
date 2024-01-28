@@ -2,9 +2,9 @@
 using UnityEditor;
 using Object = UnityEngine.Object;
 
-namespace ScriptableObjectDatabase
+namespace Platinio.ScriptableObjectDatabase
 {
-    public abstract class ScriptableItemEditor : Editor
+    public abstract class ScriptableItemEditor : UnityEditor.Editor
     {
         public abstract Type DatabaseType { get; }
 

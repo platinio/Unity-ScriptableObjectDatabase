@@ -5,7 +5,7 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
-namespace ScriptableObjectDatabase
+namespace Platinio.ScriptableObjectDatabase
 {
     /// <summary>
     /// class to hold a collection of scriptable items

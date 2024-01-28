@@ -6,7 +6,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ScriptableObjectDatabase
+namespace Platinio.ScriptableObjectDatabase
 {
     public abstract class DatabaseEditorWindow<Database, Entry> : EditorWindow 
         where Database : ScriptableDatabase<Entry> 
