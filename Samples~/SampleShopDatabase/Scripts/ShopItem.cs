@@ -1,9 +1,14 @@
-﻿namespace ScriptableObjectDatabase.Sample
+﻿using UnityEngine;
+
+namespace Platinio.ScriptableObjectDatabase.Sample
 {
     public class ShopItem : ScriptableItem
     {
-        public float Cost;
-        public string Description;
+        [SerializeField] private int cost;
+        [SerializeField, TextArea] private string description;
+
+        public int Cost => cost;
+        public string Description => description;
     }
 }
 

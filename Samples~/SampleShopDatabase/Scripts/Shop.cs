@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ScriptableObjectDatabase.Sample
+namespace Platinio.ScriptableObjectDatabase.Sample
 {
     public class Shop : MonoBehaviour
     {
         [SerializeField, ScriptableItemDatabaseSelector(typeof(ShopItemsDatabase))]
         private List<ShopItem> shopItems;
 
+        [SerializeField] private ItemUI itemUIPrefab;
+        [SerializeField] private Transform itemsParent;
         private void Start()
         {
-            foreach (var shopItem in shopItems)
+            foreach (var item in shopItems)
             {
-                Debug.Log($"Item ID: {shopItem.Id}");
-                Debug.Log($"Item Name: {shopItem.Name}");
-                Debug.Log($"Item Cost: {shopItem.Cost}");
+                var itemUI = Instantiate(itemUIPrefab, itemsParent);
+                itemUI.UpdateContent(item);
             }
         }
     }

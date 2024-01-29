@@ -12,11 +12,13 @@ namespace Platinio.ScriptableObjectDatabase
         where Database : ScriptableDatabase<Entry> 
         where Entry : ScriptableItem
     {
-        [SerializeField] protected VisualTreeAsset visualTreeAsset = default;
+        [SerializeField] protected VisualTreeAsset visualTreeAsset;
         [SerializeField] protected VisualTreeAsset listElementTreeAsset;
 
         private InspectorElement inspectorElement = null;
         protected Entry selectedItem;
+
+        public abstract string GetWindowTitle();
         
         public virtual void CreateGUI()
         {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ScriptableObjectDatabase.Sample
+namespace Platinio.ScriptableObjectDatabase.Sample
 {
     public class ShopDatabaseExample : MonoBehaviour
     { 

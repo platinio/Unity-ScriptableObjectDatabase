@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -14,7 +13,6 @@ namespace Platinio.ScriptableObjectDatabase
     {
         [SerializeField] protected List<T> items;
         [SerializeField] private bool isEnabled = true;
-        [SerializeField, HideInInspector] private List<T> itemsCopy;
         [SerializeField, HideInInspector] private uint id = 0;
 
         public int Count => items.Count;
@@ -49,18 +47,16 @@ namespace Platinio.ScriptableObjectDatabase
             item.name = $"Item {item.Id}";
             item.Name = item.name;
 
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             AssetDatabase.AddObjectToAsset(item, this);
             EditorUtility.SetDirty(this);
-#endif
+            #endif
         }
 
         public void RemoveItem(T item)
         {
             if (!Contains(item)) return;
             items.Remove(item);
-            UpdateItemsCopy();
-            
             #if UNITY_EDITOR
             DestroyImmediate(item, true);
             EditorUtility.SetDirty(this);
@@ -68,30 +64,6 @@ namespace Platinio.ScriptableObjectDatabase
         }
 
         public bool Contains(T item) => items.Contains(item);
-
-#if UNITY_EDITOR
-        public void Clean()
-        {
-            if (items == null || items.Count == 0) return;
-            
-            items = items.Distinct().ToList();
-            if (items.Count >= itemsCopy.Count) return;
-
-            foreach (var item in itemsCopy)
-            {
-                if (!items.Contains(item)) DestroyImmediate(item, true);
-            }
-            
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssets();
-        }
-#endif
-
-        public void UpdateItemsCopy()
-        {
-            if (items == null || items.Count == 0) return;
-            itemsCopy = items.ToList();
-        }
 
         public IEnumerable<T> GetItems() => items;
 

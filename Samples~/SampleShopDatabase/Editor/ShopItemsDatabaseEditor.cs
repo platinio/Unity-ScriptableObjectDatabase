@@ -1,8 +1,7 @@
-﻿using ScriptableObjectDatabase.Sample;
-using UnityEditor;
+﻿using UnityEditor;
 
-namespace ScriptableObjectDatabase
+namespace Platinio.ScriptableObjectDatabase.Sample
 {
     [CustomEditor(typeof(ShopItemsDatabase))]
-    public class ShopItemsDatabaseEditor : ScriptableDatabaseEditor<ShopItem> { }
+    public class ShopItemsDatabaseEditor : ScriptableDatabaseEditor<ShopItemEditorWindow, ShopItemsDatabase, ShopItem> { }
 }

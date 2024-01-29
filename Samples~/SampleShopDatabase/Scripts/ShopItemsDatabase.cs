@@ -1,4 +1,4 @@
-﻿namespace ScriptableObjectDatabase.Sample
+﻿namespace Platinio.ScriptableObjectDatabase.Sample
 {
     public class ShopItemsDatabase : ScriptableDatabase<ShopItem> { }
 }
