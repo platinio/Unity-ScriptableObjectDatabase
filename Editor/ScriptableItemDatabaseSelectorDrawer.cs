@@ -53,7 +53,7 @@ namespace Platinio.ScriptableObjectDatabase
 
             if (attr.CanBeNull)
             {
-                dropDownItems.Add(new DropdownItem<ScriptableItem>("Null", null, property.objectReferenceValue == null, null));
+                dropDownItems.Add(new DropdownItem<ScriptableItem>("Null", property.objectReferenceValue == null, null));
             }
             else if (property.objectReferenceValue == null) 
             {
