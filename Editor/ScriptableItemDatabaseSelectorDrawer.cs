@@ -51,14 +51,7 @@ namespace Platinio.ScriptableObjectDatabase
             var attr = attribute as ScriptableItemDatabaseSelector;
             List<DropdownItem<ScriptableItem>> dropDownItems = new();
 
-            if (attr.CanBeNull)
-            {
-                dropDownItems.Add(new DropdownItem<ScriptableItem>("Null", property.objectReferenceValue == null, null));
-            }
-            else if (property.objectReferenceValue == null) 
-            {
-                UpdateDropdownValue(property, items.FirstOrDefault());
-            }
+            dropDownItems.Add(new DropdownItem<ScriptableItem>("Null", property.objectReferenceValue == null, null));
             
             foreach (var item in items)
             {

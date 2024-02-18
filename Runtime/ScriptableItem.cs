@@ -8,10 +8,10 @@ namespace Platinio.ScriptableObjectDatabase
 
         [SerializeField] private Sprite icon;
         [SerializeField, HideInInspector] protected uint id;
-
+       
         public uint Id => id;
         public Sprite Icon => icon;
-        
+
         public virtual void OnSave()
         {
             name = Name;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -16,7 +17,7 @@ namespace Platinio.ScriptableObjectDatabase
         [SerializeField, HideInInspector] private uint id = 0;
 
         public int Count => items.Count;
-        public IEnumerable<T> Items => items;
+        public IReadOnlyList<T> Items => items;
 
         private uint GetUniqueId() => id++;
 
@@ -40,7 +41,7 @@ namespace Platinio.ScriptableObjectDatabase
         public void AddItem(T item)
         {
             if (items.Contains(item)) return;
-
+            
             item.SetId(GetUniqueId());
             items.Add(item);
             
@@ -62,6 +63,17 @@ namespace Platinio.ScriptableObjectDatabase
             EditorUtility.SetDirty(this);
             #endif
         }
+
+        public void SwapItems(T a, T b)
+        {
+            int aIndex = items.IndexOf(a);
+            int bIndex = items.IndexOf(b);
+
+            items[aIndex] = b;
+            items[bIndex] = a;
+        }
+
+        public int GetItemIndex(T item) => items.IndexOf(item);
 
         public bool Contains(T item) => items.Contains(item);
 

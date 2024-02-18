@@ -50,9 +50,26 @@ namespace Platinio.ScriptableObjectDatabase
             toolbarMenu.menu.AppendAction("Create New Item", CreateNewEntry);
             toolbarMenu.menu.AppendAction("Duplicate Selected Item", DuplicateEntry);
             toolbarMenu.menu.AppendAction("Remove Selected Item", RemoveEntry);
+            toolbarMenu.menu.AppendAction("Move Up", (_) => MoveSelectedItem(-1));
+            toolbarMenu.menu.AppendAction("Move Down", (_) => MoveSelectedItem(1));
             toolbarMenu.menu.AppendAction("Save", Save);
         }
-        
+
+        protected void MoveSelectedItem(int dir)
+        {
+            if (selectedItem == null) return;
+            
+            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+
+            int targetIndex = database.GetItemIndex(selectedItem) + dir;
+            if (targetIndex < 0 || targetIndex >= database.Items.Count) return;
+            
+            database.SwapItems(selectedItem, database.Items[targetIndex]);
+            
+            CreateDatabaseListGUI(rootVisualElement);
+            RebuildDatabaseList(rootVisualElement);
+        }
+
         protected virtual void CreateNewEntry(DropdownMenuAction dropdownMenuAction)
         {
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
@@ -111,6 +128,7 @@ namespace Platinio.ScriptableObjectDatabase
         {
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             IEnumerable<Entry> items = database.Items;
+            //items = items.OrderBy(x => x.ListOrder).ToList();
 
             items = FilterEntries(items);
             
@@ -141,6 +159,7 @@ namespace Platinio.ScriptableObjectDatabase
         {
             var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
             IEnumerable<Entry> items = database.Items;
+            //items = items.OrderBy(x => x.ListOrder).ToList();
             
             items = FilterEntries(items);
             
