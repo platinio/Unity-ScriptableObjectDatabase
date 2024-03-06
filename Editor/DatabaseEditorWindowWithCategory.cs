@@ -50,6 +50,9 @@ namespace Platinio.ScriptableObjectDatabase
         
         private void OnCategorySelectionChanged(IEnumerable<object> selection)
         {
+            var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
+            if (inspectorElement != null && databaseEditor.Contains(inspectorElement)) databaseEditor.Remove(inspectorElement);
+            
             selectedCategory = selection.FirstOrDefault() as Category;
             UpdateSelectedCategory();
         }
@@ -71,7 +74,7 @@ namespace Platinio.ScriptableObjectDatabase
         protected void UpdateSelectedCategory()
         {
             var skillDatabase = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
-            IEnumerable<Entry> items = skillDatabase.Items;
+            IReadOnlyList<Entry> items = skillDatabase.Items;
         
             var listView = rootVisualElement.Q("ItemListView") as ListView;
             items = FilterEntries(items);

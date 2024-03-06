@@ -15,7 +15,7 @@ namespace Platinio.ScriptableObjectDatabase
         [SerializeField] protected VisualTreeAsset visualTreeAsset;
         [SerializeField] protected VisualTreeAsset listElementTreeAsset;
 
-        private InspectorElement inspectorElement = null;
+        protected InspectorElement inspectorElement = null;
         protected Entry selectedItem;
 
         public abstract string GetWindowTitle();
@@ -55,24 +55,40 @@ namespace Platinio.ScriptableObjectDatabase
             toolbarMenu.menu.AppendAction("Save", Save);
         }
 
-        protected void MoveSelectedItem(int dir)
+        protected virtual void MoveSelectedItem(int dir)
         {
             if (selectedItem == null) return;
-            
-            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
 
-            int targetIndex = database.GetItemIndex(selectedItem) + dir;
+            var database = GetDatabase();
+            var items = FilterEntries(database.Items);
+
+            int targetIndex = GetSelectedItemIndex() + dir;
             if (targetIndex < 0 || targetIndex >= database.Items.Count) return;
             
-            database.SwapItems(selectedItem, database.Items[targetIndex]);
+            database.SwapItems(selectedItem, items[targetIndex]);
             
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
         }
 
+        private int GetSelectedItemIndex()
+        {
+            if (selectedItem == null) return -1;
+        
+            var database = GetDatabase();
+            var items = FilterEntries(database.Items);
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i] == selectedItem) return i;
+            }
+
+            return -1;
+        }
+
         protected virtual void CreateNewEntry(DropdownMenuAction dropdownMenuAction)
         {
-            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+            var database = GetDatabase();
             database.AddItem(CreateInstance<Entry>());
             
             CreateDatabaseListGUI(rootVisualElement);
@@ -90,8 +106,8 @@ namespace Platinio.ScriptableObjectDatabase
             if (selectedItem == null) return;
             
             var clone = Instantiate(selectedItem);
-            
-            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+
+            var database = GetDatabase();
             database.AddItem(clone);
             
             CreateDatabaseListGUI(rootVisualElement);
@@ -101,22 +117,31 @@ namespace Platinio.ScriptableObjectDatabase
         protected virtual void RemoveEntry(DropdownMenuAction dropdownMenuAction)
         {
             if (selectedItem == null) return;
+
+            if (EditorUtility.DisplayDialog("Delete selected item?", $"\"{selectedItem.name}\" will be deleted\n \n \nYou can't undo this action", 
+                    "Delete Forever", "Cancel"))
+            {
+                var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
+                if (inspectorElement != null) databaseEditor.Remove(inspectorElement);
+
+                var database = GetDatabase();
+                database.RemoveItem(selectedItem);
             
-            var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
-            if (inspectorElement != null) databaseEditor.Remove(inspectorElement);
+                DestroyImmediate(selectedItem, true);
             
-            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
-            database.RemoveItem(selectedItem);
+                EditorUtility.SetDirty(database);
+                SaveInternal();
             
-            DestroyImmediate(selectedItem, true);
-            
-            CreateDatabaseListGUI(rootVisualElement);
-            RebuildDatabaseList(rootVisualElement);
+                CreateDatabaseListGUI(rootVisualElement);
+                RebuildDatabaseList(rootVisualElement);
+            }
         }
 
-        protected void Save(DropdownMenuAction dropdownMenuAction)
+        protected void Save(DropdownMenuAction dropdownMenuAction) => SaveInternal();
+
+        private void SaveInternal()
         {
-            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+            var database = GetDatabase();
             database.OnSave();
             AssetDatabase.SaveAssetIfDirty(database);
             
@@ -126,10 +151,9 @@ namespace Platinio.ScriptableObjectDatabase
 
         protected void CreateDatabaseListGUI(VisualElement root)
         {
-            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
-            IEnumerable<Entry> items = database.Items;
-            //items = items.OrderBy(x => x.ListOrder).ToList();
-
+            var database = GetDatabase();
+            IReadOnlyList<Entry> items = database.Items;
+            
             items = FilterEntries(items);
             
             var listView = root.Q("ItemListView") as ListView;
@@ -141,7 +165,7 @@ namespace Platinio.ScriptableObjectDatabase
             listView.selectionChanged += OnEntrySelectionChanged;
         }
 
-        protected abstract IEnumerable<Entry> FilterEntries(IEnumerable<Entry> entries);
+        protected abstract IReadOnlyList<Entry> FilterEntries(IReadOnlyList<Entry> entries);
 
         protected virtual void OnEntrySelectionChanged(IEnumerable<object> selection)
         {
@@ -157,10 +181,9 @@ namespace Platinio.ScriptableObjectDatabase
 
         private void BindEntryItem(VisualElement element, int index)
         {
-            var database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
-            IEnumerable<Entry> items = database.Items;
-            //items = items.OrderBy(x => x.ListOrder).ToList();
-            
+            var database = GetDatabase();
+            IReadOnlyList<Entry> items = database.Items;
+
             items = FilterEntries(items);
             
             var item = items.ToArray()[index];
@@ -169,7 +192,8 @@ namespace Platinio.ScriptableObjectDatabase
             element.Q("Icon").style.backgroundImage = new StyleBackground(item.Icon);
         }
 
-
         private VisualElement MakeItem() => listElementTreeAsset.CloneTree();
+        
+        private Database GetDatabase() => ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
     }
 }

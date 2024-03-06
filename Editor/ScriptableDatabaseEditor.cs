@@ -21,7 +21,7 @@ namespace Platinio.ScriptableObjectDatabase
                 DatabaseEditorWindowType wnd = EditorWindow.GetWindow<DatabaseEditorWindowType>();
                 wnd.titleContent = new GUIContent(wnd.GetWindowTitle());
             }
-
+            
             EditorGUILayout.PropertyField(isEnabledProperty);
             serializedObject.ApplyModifiedProperties();
         }
