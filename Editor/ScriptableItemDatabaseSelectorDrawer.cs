@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using Platinio.AdvancedDropdown;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Platinio.ScriptableObjectDatabase
 {
@@ -23,8 +24,31 @@ namespace Platinio.ScriptableObjectDatabase
             dropdownRect.x += position.width / 2.0f;
             dropdownRect.width = position.width / 2.0f;
             
+            Rect buttonDropdownRect = position;
+            buttonDropdownRect.width = 25;
+            buttonDropdownRect.x += (position.width / 2.0f) - (buttonDropdownRect.width) - 5.0f;
+
             EditorGUI.LabelField(labelRect, label);
+
             DrawDatabaseDropDown(dropdownRect, property);
+            
+            if (GUI.Button(buttonDropdownRect, "►"))
+            {
+                if (property.objectReferenceValue == null) return;
+
+                Editor editorInstance = Editor.CreateEditor(property.objectReferenceValue);
+
+                try
+                {
+                    ((dynamic)editorInstance).OpenInEditorWindow();
+                }
+                catch (Exception e)
+                {
+                    EditorGUIUtility.PingObject(property.objectReferenceValue);
+                }
+
+                Object.DestroyImmediate(editorInstance);
+            }
 
             EditorGUI.EndProperty();
         }

@@ -12,7 +12,7 @@ namespace Platinio.ScriptableObjectDatabase
         where Entry : ScriptableItem
     {
         protected static Category selectedCategory = null;
-       
+
         public override void CreateGUI()
         {
             // Each editor window contains a root VisualElement object
@@ -25,6 +25,9 @@ namespace Platinio.ScriptableObjectDatabase
             CreateCategoryListGUI(root);
             CreateDatabaseListGUI(root);
             SetupToolBar(root.Q<ToolbarMenu>());
+            
+            //select first item on open
+            if (selectedItem == null) ChangeSelection(0);
         }
 
         private void CreateCategoryListGUI(VisualElement root)
@@ -81,6 +84,30 @@ namespace Platinio.ScriptableObjectDatabase
 
             listView.itemsSource = (IList)items;
             listView.RefreshItems();
+        }
+
+        protected abstract Category GetItemCategory(Entry item);
+
+        protected int GetCategoryIndex(Category category)
+        {
+            var categories = GetDatabaseCategories();
+            
+            for (int i = 0; i < categories.Count; i++)
+            {
+                if (categories[i].ID == category.ID) return i;
+            }
+
+            return 0;
+        }
+
+        public override void ChangeSelection(Entry item)
+        {
+            selectedCategory = GetItemCategory(item);
+            
+            var listView = rootVisualElement.Q("CategoryListView") as ListView;
+            listView.selectedIndex = GetCategoryIndex(selectedCategory);
+            
+            base.ChangeSelection(item);
         }
 
         protected abstract List<Category> GetDatabaseCategories();

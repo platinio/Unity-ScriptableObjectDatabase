@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace Platinio.ScriptableObjectDatabase
         protected Entry selectedItem;
 
         public abstract string GetWindowTitle();
+
+        public Entry SelectedItem => selectedItem;
         
         public virtual void CreateGUI()
         {
@@ -43,6 +46,9 @@ namespace Platinio.ScriptableObjectDatabase
 
             CreateDatabaseListGUI(root);
             SetupToolBar(root.Q<ToolbarMenu>());
+            
+            //select first item on open
+            if (selectedItem == null) ChangeSelection(0);
         }
 
         protected virtual void SetupToolBar(ToolbarMenu toolbarMenu)
@@ -170,13 +176,31 @@ namespace Platinio.ScriptableObjectDatabase
         protected virtual void OnEntrySelectionChanged(IEnumerable<object> selection)
         {
             var entry = selection.FirstOrDefault() as Entry;
-            selectedItem = entry;
+           ChangeSelection(entry);
+        }
+
+        public virtual void ChangeSelection(Entry item)
+        {
+            selectedItem = item;
 
             var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
             if (inspectorElement != null && databaseEditor.Contains(inspectorElement)) databaseEditor.Remove(inspectorElement);
 
-            inspectorElement = new InspectorElement(new SerializedObject(entry));
+            inspectorElement = new InspectorElement(new SerializedObject(item));
             databaseEditor.Add(inspectorElement);
+           
+            var listView = rootVisualElement.Q("ItemListView") as ListView;
+            listView.selectedIndex = GetSelectedItemIndex();
+        }
+
+        protected virtual void ChangeSelection(int index)
+        {
+            var database = GetDatabase();
+            IReadOnlyList<Entry> items = database.Items;
+
+            items = FilterEntries(items);
+            
+            ChangeSelection(items[index]);
         }
 
         private void BindEntryItem(VisualElement element, int index)
