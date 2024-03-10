@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -157,11 +156,8 @@ namespace Platinio.ScriptableObjectDatabase
 
         protected void CreateDatabaseListGUI(VisualElement root)
         {
-            var database = GetDatabase();
-            IReadOnlyList<Entry> items = database.Items;
-            
-            items = FilterEntries(items);
-            
+            IReadOnlyList<Entry> items = GetFilteredEntries();
+
             var listView = root.Q("ItemListView") as ListView;
             listView.Clear();
             listView.makeItem = MakeItem;
@@ -195,21 +191,22 @@ namespace Platinio.ScriptableObjectDatabase
 
         protected virtual void ChangeSelection(int index)
         {
-            var database = GetDatabase();
-            IReadOnlyList<Entry> items = database.Items;
-
-            items = FilterEntries(items);
-            
+            IReadOnlyList<Entry> items = GetFilteredEntries();
             ChangeSelection(items[index]);
         }
 
-        private void BindEntryItem(VisualElement element, int index)
+        protected IReadOnlyList<Entry> GetFilteredEntries()
         {
             var database = GetDatabase();
             IReadOnlyList<Entry> items = database.Items;
 
-            items = FilterEntries(items);
-            
+            return FilterEntries(items);
+        }
+
+        private void BindEntryItem(VisualElement element, int index)
+        {
+            IReadOnlyList<Entry> items = GetFilteredEntries();
+
             var item = items.ToArray()[index];
             
             element.Q<Label>().text = item.Name;
