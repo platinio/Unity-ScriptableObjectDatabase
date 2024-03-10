@@ -32,10 +32,8 @@ namespace Platinio.ScriptableObjectDatabase
 
             DrawDatabaseDropDown(dropdownRect, property);
             
-            if (GUI.Button(buttonDropdownRect, "►"))
+            if (property.objectReferenceValue != null && GUI.Button(buttonDropdownRect, "►"))
             {
-                if (property.objectReferenceValue == null) return;
-
                 Editor editorInstance = Editor.CreateEditor(property.objectReferenceValue);
 
                 try

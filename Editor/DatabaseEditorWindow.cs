@@ -177,6 +177,8 @@ namespace Platinio.ScriptableObjectDatabase
 
         public virtual void ChangeSelection(Entry item)
         {
+            if (item == null) return;
+            
             selectedItem = item;
 
             var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");

@@ -10,20 +10,6 @@ namespace Platinio.ScriptableObjectDatabase
         {
             base.OnInspectorGUI();
             
-            bool windowIsOpen = EditorWindow.HasOpenInstances<ItemEditorWindow>();
-
-            if (windowIsOpen)
-            {
-                ItemEditorWindow wnd = EditorWindow.GetWindow<ItemEditorWindow>();
-                if (wnd.SelectedItem == target as Entry) return;
-                
-                if (GUILayout.Button("Open in Editor Window")) OpenInEditorWindow();
-            }
-            else
-            {
-                if (GUILayout.Button("Open in Editor Window")) OpenInEditorWindow();
-            }
-            
             ScriptableItem item = target as ScriptableItem;
             EditorGUILayout.LabelField($"Item ID: {item.Id}");
         }
