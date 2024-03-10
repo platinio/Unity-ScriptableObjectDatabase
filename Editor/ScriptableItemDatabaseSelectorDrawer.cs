@@ -28,12 +28,26 @@ namespace Platinio.ScriptableObjectDatabase
             buttonDropdownRect.width = 25;
             buttonDropdownRect.x += (position.width / 2.0f) - (buttonDropdownRect.width) - 5.0f;
 
-            EditorGUI.LabelField(labelRect, label);
+            Rect iconRect = buttonDropdownRect;
+            iconRect.width = 30;
+            iconRect.x -= buttonDropdownRect.width + 10;
 
+            buttonDropdownRect.height /= 1.5f;
+            
+            EditorGUI.LabelField(labelRect, label);
             DrawDatabaseDropDown(dropdownRect, property);
             
+            dynamic item = property.objectReferenceValue;
+
+            if (item != null && item.Icon != null)
+            {
+                Sprite sprite = item.Icon;
+                GUI.DrawTexture(iconRect, sprite.texture);
+            }
+
             if (property.objectReferenceValue != null && GUI.Button(buttonDropdownRect, "►"))
             {
+                
                 Editor editorInstance = Editor.CreateEditor(property.objectReferenceValue);
 
                 try
@@ -49,6 +63,11 @@ namespace Platinio.ScriptableObjectDatabase
             }
 
             EditorGUI.EndProperty();
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return base.GetPropertyHeight(property, label) * 1.5f;
         }
 
         private void DrawDatabaseDropDown(Rect rect, SerializedProperty property)
