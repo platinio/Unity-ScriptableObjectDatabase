@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Platinio.ScriptableObjectDatabase
 
         protected InspectorElement inspectorElement = null;
         protected Entry selectedItem;
+        private Dictionary<Type, Database> databaseCache = new();
 
         public abstract string GetWindowTitle();
 
@@ -216,7 +218,18 @@ namespace Platinio.ScriptableObjectDatabase
         }
 
         private VisualElement MakeItem() => listElementTreeAsset.CloneTree();
-        
-        private Database GetDatabase() => ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+
+        private Database GetDatabase()
+        {
+            if (databaseCache.TryGetValue(typeof(Database), out var database))
+            {
+                if (database == null || !database.IsEnabled()) databaseCache.Remove(typeof(Database));
+                else return database;
+            }
+
+            database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
+            databaseCache[typeof(Database)] = database;
+            return database;
+        } 
     }
 }
