@@ -196,6 +196,8 @@ namespace Platinio.ScriptableObjectDatabase
         protected virtual void ChangeSelection(int index)
         {
             IReadOnlyList<Entry> items = GetFilteredEntries();
+            if (index >= items.Count) return;
+            
             ChangeSelection(items[index]);
         }
 
