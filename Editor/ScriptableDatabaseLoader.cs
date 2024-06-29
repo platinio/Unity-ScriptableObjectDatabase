@@ -1,7 +1,5 @@
 ﻿using System;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 using UnityEngine;
 
 namespace Platinio.ScriptableObjectDatabase
@@ -10,7 +8,6 @@ namespace Platinio.ScriptableObjectDatabase
     {
         public static object LoadDatabase(Type databaseType, string name = null)
         {
-            #if UNITY_EDITOR
             var guids = AssetDatabase.FindAssets($"t:{databaseType.Name}");
 
             foreach (var guid in guids)
@@ -31,7 +28,6 @@ namespace Platinio.ScriptableObjectDatabase
             }
 
             Debug.LogError($"Can't find a database of type {databaseType} do you have one created and enabled?");
-            #endif
             return null;
         }
     }

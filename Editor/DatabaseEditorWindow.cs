@@ -26,13 +26,16 @@ namespace Platinio.ScriptableObjectDatabase
         
         public virtual void CreateGUI()
         {
-            if (visualTreeAsset == null)
+            var visualTreeAssetElement = GetVisualTreeAssetOrDefault();
+            var listElementTreeAssetElement = GetListElementTreeAssetOrDefault();
+            
+            if (visualTreeAssetElement == null)
             {
                 Debug.LogError($"visualTreeAsset is null for database editor of type {typeof(Database)}");
                 return;
             }
             
-            if (listElementTreeAsset == null)
+            if (listElementTreeAssetElement == null)
             {
                 Debug.LogError($"listElementTreeAsset is null for database editor of type {typeof(Database)}");
                 return;
@@ -42,7 +45,7 @@ namespace Platinio.ScriptableObjectDatabase
             VisualElement root = rootVisualElement;
 
             // Instantiate UXML
-            VisualElement labelFromUXML = visualTreeAsset.Instantiate();
+            VisualElement labelFromUXML = visualTreeAssetElement.Instantiate();
             root.Add(labelFromUXML);
 
             CreateDatabaseListGUI(root);
@@ -50,6 +53,27 @@ namespace Platinio.ScriptableObjectDatabase
             
             //select first item on open
             if (selectedItem == null) ChangeSelection(0);
+        }
+        
+        protected VisualTreeAsset GetListElementTreeAssetOrDefault()
+        {
+            if (listElementTreeAsset == null) return LoadAssetByName("ListElementTreeAsset");
+            return listElementTreeAsset;
+        }
+
+        private VisualTreeAsset LoadAssetByName(string assetName)
+        {
+            var assetGuid = AssetDatabase.FindAssets(assetName).FirstOrDefault();
+            if (string.IsNullOrEmpty(assetGuid)) return null;
+
+            var path = AssetDatabase.GUIDToAssetPath(assetGuid);
+            return AssetDatabase.LoadAssetAtPath(path, typeof(VisualTreeAsset)) as VisualTreeAsset;
+        }
+
+        protected VisualTreeAsset GetVisualTreeAssetOrDefault()
+        {
+            if (visualTreeAsset == null) return LoadAssetByName("GenericItemEditorTreeAsset");
+            return visualTreeAsset;
         }
 
         protected virtual void SetupToolBar(ToolbarMenu toolbarMenu)
@@ -169,7 +193,7 @@ namespace Platinio.ScriptableObjectDatabase
             listView.selectionChanged += OnEntrySelectionChanged;
         }
 
-        protected abstract IReadOnlyList<Entry> FilterEntries(IReadOnlyList<Entry> entries);
+        protected virtual IReadOnlyList<Entry> FilterEntries(IReadOnlyList<Entry> entries) => entries;
 
         protected virtual void OnEntrySelectionChanged(IEnumerable<object> selection)
         {
@@ -215,11 +239,21 @@ namespace Platinio.ScriptableObjectDatabase
 
             var item = items.ToArray()[index];
             
-            element.Q<Label>().text = item.Name;
+            element.Q<Label>().text = item.name;
             element.Q("Icon").style.backgroundImage = new StyleBackground(item.Icon);
         }
 
-        private VisualElement MakeItem() => listElementTreeAsset.CloneTree();
+        protected VisualElement MakeItem()
+        {
+            var listElementTreeAsset = GetListElementTreeAssetOrDefault();
+            if (listElementTreeAsset == null)
+            {
+                Debug.LogError("List Element Tree Asset is null");
+                return null;
+            }
+            
+            return listElementTreeAsset.CloneTree();
+        }
 
         private Database GetDatabase()
         {

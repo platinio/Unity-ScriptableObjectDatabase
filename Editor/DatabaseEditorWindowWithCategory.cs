@@ -15,11 +15,26 @@ namespace Platinio.ScriptableObjectDatabase
 
         public override void CreateGUI()
         {
+            var visualTreeAssetElement = GetVisualTreeAssetOrDefault();
+            var listElementTreeAssetElement = GetListElementTreeAssetOrDefault();
+            
+            if (visualTreeAssetElement == null)
+            {
+                Debug.LogError($"visualTreeAsset is null for database editor of type {typeof(Database)}");
+                return;
+            }
+            
+            if (listElementTreeAssetElement == null)
+            {
+                Debug.LogError($"listElementTreeAsset is null for database editor of type {typeof(Database)}");
+                return;
+            }
+            
             // Each editor window contains a root VisualElement object
             VisualElement root = rootVisualElement;
 
             // Instantiate UXML
-            VisualElement labelFromUXML = visualTreeAsset.Instantiate();
+            VisualElement labelFromUXML = visualTreeAssetElement.Instantiate();
             root.Add(labelFromUXML);
 
             CreateCategoryListGUI(root);
@@ -34,14 +49,12 @@ namespace Platinio.ScriptableObjectDatabase
         {
             var listView = root.Q("CategoryListView") as ListView;
             listView.Clear();
-            listView.makeItem = MakeCategoryTypeItem;
+            listView.makeItem = MakeItem;
             listView.bindItem = BindCategoryTypeItem;
             listView.itemsSource = GetDatabaseCategories();
             listView.selectionType = SelectionType.Single;
             listView.selectionChanged += OnCategorySelectionChanged;
         }
-
-        private VisualElement MakeCategoryTypeItem() => listElementTreeAsset.CloneTree();
         
         private void BindCategoryTypeItem(VisualElement element, int index)
         {
