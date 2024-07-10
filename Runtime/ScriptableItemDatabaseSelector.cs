@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Platinio.ScriptableObjectDatabase
+namespace ArcaneOnyx.ScriptableObjectDatabase
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public sealed class ScriptableItemDatabaseSelector : PropertyAttribute

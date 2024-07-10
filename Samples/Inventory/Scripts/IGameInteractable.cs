@@ -1,4 +1,4 @@
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public interface IGameInteractable
     {

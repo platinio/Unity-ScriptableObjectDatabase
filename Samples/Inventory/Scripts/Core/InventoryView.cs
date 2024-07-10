@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public class InventoryView : MonoBehaviour
     {

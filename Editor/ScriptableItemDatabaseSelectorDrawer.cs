@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Platinio.AdvancedDropdown;
+using ArcaneOnyx.AdvancedDropdown;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Platinio.ScriptableObjectDatabase
+namespace ArcaneOnyx.ScriptableObjectDatabase
 {
     /// <summary>
     /// Dropdown drawer to select a item form a database

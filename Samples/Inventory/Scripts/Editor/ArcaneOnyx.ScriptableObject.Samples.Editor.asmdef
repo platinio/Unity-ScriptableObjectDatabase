@@ -1,0 +1,18 @@
+{
+    "name": "ArcaneOnyx.ScriptableObject.Samples.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ad3fd6def68f1444a81117953a8edf1f",
+        "GUID:28840992ff804ea4fbd6b6609caaa9a9",
+        "GUID:3dc5b907e34a24044b423a3f22ebfa4a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

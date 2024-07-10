@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public class InventoryOwner : MonoBehaviour
     {

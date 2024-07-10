@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     /// <summary>
     /// Connect an inventoryView to an inventoryOwner

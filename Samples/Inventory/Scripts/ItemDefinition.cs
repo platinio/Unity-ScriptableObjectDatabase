@@ -1,7 +1,7 @@
-﻿using Platinio.ScriptableObjectDatabase;
+﻿using ArcaneOnyx.ScriptableObjectDatabase;
 using UnityEngine;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public class ItemDefinition : ScriptableItem
     {

@@ -1,8 +1,8 @@
 using System;
-using Platinio.ScriptableObjectDatabase;
+using ArcaneOnyx.ScriptableObjectDatabase;
 using UnityEngine;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     [Serializable]
     public class InventoryItem

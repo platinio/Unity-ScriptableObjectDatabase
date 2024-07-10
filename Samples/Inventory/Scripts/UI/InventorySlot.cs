@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public class InventorySlot : BaseSlotUI, IDragHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IPointerUpHandler
     {

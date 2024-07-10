@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public abstract class BaseSlotUI : MonoBehaviour, IPointerClickHandler
     {

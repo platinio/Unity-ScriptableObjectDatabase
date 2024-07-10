@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Platinio.ScriptableObjectDatabase
+namespace ArcaneOnyx.ScriptableObjectDatabase
 {
     public class ScriptableItemVisualTreeEditor<ItemEditorWindow, Database, Item> : Editor where ItemEditorWindow : DatabaseEditorWindow<Database, Item> where Database : ScriptableDatabase<Item> where Item : ScriptableItem
     {

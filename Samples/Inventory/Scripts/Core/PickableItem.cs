@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public class PickableItem : MonoBehaviour, IGameInteractable
     {

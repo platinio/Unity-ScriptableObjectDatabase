@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public class PlayerInventoryController : InventoryController
     {

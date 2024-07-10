@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public static class Mouse
     {

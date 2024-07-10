@@ -1,7 +1,7 @@
-﻿using Platinio.ScriptableObjectDatabase;
+﻿using ArcaneOnyx.ScriptableObjectDatabase;
 using UnityEditor;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     [CustomEditor(typeof(ItemDefinitionDatabase))]
     public class ItemDefinitionDatabaseEditor : ScriptableDatabaseEditor<ItemDefinitionDatabaseEditorWindow, ItemDefinitionDatabase, ItemDefinition>

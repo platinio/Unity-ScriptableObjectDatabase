@@ -1,6 +1,6 @@
-﻿using Platinio.ScriptableObjectDatabase;
+﻿using ArcaneOnyx.ScriptableObjectDatabase;
 
-namespace Platinio.InventorySample
+namespace ArcaneOnyx.InventorySample
 {
     public class ItemDefinitionDatabaseEditorWindow : DatabaseEditorWindow<ItemDefinitionDatabase, ItemDefinition>
     {

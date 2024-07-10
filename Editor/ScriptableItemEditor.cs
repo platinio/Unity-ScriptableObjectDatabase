@@ -2,7 +2,7 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Platinio.ScriptableObjectDatabase
+namespace ArcaneOnyx.ScriptableObjectDatabase
 {
     public abstract class ScriptableItemEditor<ItemEditorWindow, Database, Entry> : Editor where ItemEditorWindow : DatabaseEditorWindow<Database, Entry> where Database : ScriptableDatabase<Entry> where Entry : ScriptableItem
     {

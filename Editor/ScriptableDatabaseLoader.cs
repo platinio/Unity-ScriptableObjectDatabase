@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Platinio.ScriptableObjectDatabase
+namespace ArcaneOnyx.ScriptableObjectDatabase
 {
     public static class ScriptableDatabaseLoader
     {
