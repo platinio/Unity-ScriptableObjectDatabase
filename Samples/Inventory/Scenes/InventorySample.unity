@@ -160,9 +160,9 @@ MonoBehaviour:
   items:
   - item: {fileID: 712408355901124834, guid: f5b0da5cfd05ecb4790da35d011e94d7, type: 2}
     currentAmount: 1
-  - item: {fileID: -9170289753328569314, guid: f5b0da5cfd05ecb4790da35d011e94d7, type: 2}
+  - item: {fileID: -5689517270252818026, guid: f5b0da5cfd05ecb4790da35d011e94d7, type: 2}
     currentAmount: 1
-  - item: {fileID: 778965544052470794, guid: f5b0da5cfd05ecb4790da35d011e94d7, type: 2}
+  - item: {fileID: -3192820369938113849, guid: f5b0da5cfd05ecb4790da35d011e94d7, type: 2}
     currentAmount: 1
 --- !u!114 &97074522
 MonoBehaviour:

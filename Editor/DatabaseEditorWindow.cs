@@ -78,12 +78,41 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         protected virtual void SetupToolBar(ToolbarMenu toolbarMenu)
         {
-            toolbarMenu.menu.AppendAction("Create New Item", CreateNewEntry);
+            AddCreateItemOptions(toolbarMenu);
             toolbarMenu.menu.AppendAction("Duplicate Selected Item", DuplicateEntry);
             toolbarMenu.menu.AppendAction("Remove Selected Item", RemoveEntry);
             toolbarMenu.menu.AppendAction("Move Up", (_) => MoveSelectedItem(-1));
             toolbarMenu.menu.AppendAction("Move Down", (_) => MoveSelectedItem(1));
             toolbarMenu.menu.AppendAction("Save", Save);
+        }
+
+        private void AddCreateItemOptions(ToolbarMenu toolbarMenu)
+        {
+            var types = GetEnumerableOfType(typeof(Entry));
+
+            foreach (var type in types)
+            {
+                toolbarMenu.menu.AppendAction($"Create/{type.Name}", dropdownMenuAction =>
+                {
+                    CreateNewEntry(type);
+                });
+            }
+        }
+        
+        public IEnumerable<Type> GetEnumerableOfType(Type t)
+        {
+            List<Type> types = new List<Type>();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var assembly in assemblies)
+            {
+                foreach (var type in assembly.GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && t.IsAssignableFrom(myType)))
+                {
+                    types.Add(type);
+                }
+            }
+
+            return types;
         }
 
         protected virtual void MoveSelectedItem(int dir)
@@ -117,10 +146,10 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             return -1;
         }
 
-        protected virtual void CreateNewEntry(DropdownMenuAction dropdownMenuAction)
+        protected void CreateNewEntry(Type type)
         {
             var database = GetDatabase();
-            database.AddItem(CreateInstance<Entry>());
+            database.AddItem(CreateInstance(type) as Entry);
             
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
@@ -255,7 +284,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             return listElementTreeAsset.CloneTree();
         }
 
-        private Database GetDatabase()
+        protected Database GetDatabase()
         {
             if (databaseCache.TryGetValue(typeof(Database), out var database))
             {
