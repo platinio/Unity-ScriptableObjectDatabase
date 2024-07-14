@@ -86,7 +86,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             toolbarMenu.menu.AppendAction("Save", Save);
         }
 
-        private void AddCreateItemOptions(ToolbarMenu toolbarMenu)
+        protected void AddCreateItemOptions(ToolbarMenu toolbarMenu)
         {
             var types = GetEnumerableOfType(typeof(Entry));
 
