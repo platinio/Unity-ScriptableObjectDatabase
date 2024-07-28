@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:VisualElement name="ListElement" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
-        <ui:VisualElement name="Icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/Modules/Skills/Art/SkillIcons/fireball-red-2.png?fileID=2800000&amp;guid=c80ce8bb31cfc8f44be6d8a66f976ab2&amp;type=3#fireball-red-2&apos;); width: auto; height: auto; -unity-background-scale-mode: scale-to-fit; padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 5px; margin-bottom: 5px;" />
+        <ui:VisualElement name="Icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: none; width: auto; height: auto; -unity-background-scale-mode: scale-to-fit; padding-top: 0; padding-bottom: 0; padding-right: 0; padding-left: 0; margin-top: 5px; margin-bottom: 5px;" />
         <ui:Label tabindex="-1" text="Fire Ball" display-tooltip-when-elided="true" name="Label" style="width: 60%; -unity-text-align: middle-left; font-size: 14px; text-overflow: ellipsis; white-space: normal;" />
     </ui:VisualElement>
 </ui:UXML>
