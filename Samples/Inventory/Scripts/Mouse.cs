@@ -8,7 +8,6 @@ namespace ArcaneOnyx.InventorySample
     {
         private static int UILayer => LayerMask.NameToLayer("UI");
         private static int TerrainLayer => 1 << LayerMask.NameToLayer("Default");
-        private static Camera camera = null;
         
         public static bool Raycast(LayerMask layerMask, out RaycastHit raycastHit)
         {
