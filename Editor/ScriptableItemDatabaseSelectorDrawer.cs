@@ -54,7 +54,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 {
                     ((dynamic)editorInstance).OpenInEditorWindow();
                 }
-                catch (Exception e)
+                catch
                 {
                     EditorGUIUtility.PingObject(property.objectReferenceValue);
                 }
@@ -88,8 +88,6 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         private List<DropdownItem<ScriptableItem>> GetDropdownItems(SerializedProperty property)
         {
             var items = GetScriptableItems();
-            
-            var attr = attribute as ScriptableItemDatabaseSelector;
             List<DropdownItem<ScriptableItem>> dropDownItems = new();
 
             dropDownItems.Add(new DropdownItem<ScriptableItem>("Null", property.objectReferenceValue == null, null));
