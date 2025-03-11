@@ -1,19 +1,13 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ArcaneOnyx.ScriptableObjectDatabase
 {
-    public abstract class ScriptableItemEditor<ItemEditorWindow, Database, Entry> : Editor where ItemEditorWindow : DatabaseEditorWindow<Database, Entry> where Database : ScriptableDatabase<Entry> where Entry : ScriptableItem
+    public abstract class ScriptableItemInspector<ItemEditorWindow, Database, Entry> : Editor 
+        where ItemEditorWindow : DatabaseEditorWindow<Database, Entry> 
+        where Database : ScriptableDatabase<Entry> 
+        where Entry : ScriptableItem
     {
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            
-            ScriptableItem item = target as ScriptableItem;
-            EditorGUILayout.LabelField($"Item ID: {item.Id}");
-        }
-
         public void OpenInEditorWindow()
         {
             ItemEditorWindow wnd = EditorWindow.GetWindow<ItemEditorWindow>();
