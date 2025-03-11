@@ -246,6 +246,11 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             listView.selectedIndex = GetSelectedItemIndex();
         }
 
+        public void UpdateInspector()
+        {
+            ChangeSelection(selectedItem);
+        }
+
         protected virtual void ChangeSelection(int index)
         {
             IReadOnlyList<Entry> items = GetFilteredEntries();
