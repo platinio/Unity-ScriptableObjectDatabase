@@ -146,13 +146,16 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             return -1;
         }
 
-        protected void CreateNewEntry(Type type)
+        protected Entry CreateNewEntry(Type type)
         {
             var database = GetDatabase();
-            database.AddItem(CreateInstance(type) as Entry);
+            var newEntry = CreateInstance(type) as Entry;
+            database.AddItem(newEntry);
             
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
+
+            return newEntry;
         }
 
         protected void RebuildDatabaseList(VisualElement root)
