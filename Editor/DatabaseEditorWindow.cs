@@ -158,6 +158,8 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             return newEntry;
         }
 
+        public void UpdateDatabaseList() => RebuildDatabaseList(rootVisualElement);
+        
         protected void RebuildDatabaseList(VisualElement root)
         {
             var listView = root.Q("ItemListView") as ListView;
