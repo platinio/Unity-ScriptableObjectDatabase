@@ -1,9 +1,10 @@
 {
-    "name": "ArcaneOnyx.ScriptableObject.Samples",
+    "name": "ArcaneOnyx.ScriptableObject.AttributeSample.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:3dc5b907e34a24044b423a3f22ebfa4a",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "GUID:ad3fd6def68f1444a81117953a8edf1f",
+        "GUID:28840992ff804ea4fbd6b6609caaa9a9",
+        "GUID:3dc5b907e34a24044b423a3f22ebfa4a"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,0 +1,286 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5780352482428241784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19e9417a6c64f37beae4a668111c6b8, type: 3}
+  m_Name: HP Potion
+  m_EditorClassIdentifier: 
+  Name: HP Potion
+  icon: {fileID: 21300000, guid: 6043574cfeb9c0843a1ff8ed58a032cb, type: 3}
+  id: 15
+  description: 
+  gameRepresentation: {fileID: 7865147339309873309, guid: 56a731dd3bad44c43b98daf50d9558c6, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 0
+  attributeModifiers:
+  - attribute: {fileID: 2621194000688471153, guid: 19cd95790063c544187f528930b094e0, type: 2}
+    value: 10
+--- !u!114 &-5689517270252818026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7178e2a5955209408c3072b10b3ddd8, type: 3}
+  m_Name: Pistol
+  m_EditorClassIdentifier: 
+  Name: Pistol
+  icon: {fileID: 21300000, guid: 3af5f1d3766a85d429327edba45fe155, type: 3}
+  id: 12
+  description: 
+  gameRepresentation: {fileID: 5204148677888128520, guid: ef944c244d1c6974eb934547f80b0650, type: 3}
+  destroyAfterUse: 0
+  stackableAmount: 1
+--- !u!114 &-5543966957061363371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19e9417a6c64f37beae4a668111c6b8, type: 3}
+  m_Name: Mana Potion
+  m_EditorClassIdentifier: 
+  Name: Mana Potion
+  icon: {fileID: 21300000, guid: 199a2a9d7ab39ec4883f127a641af5cd, type: 3}
+  id: 16
+  description: 
+  gameRepresentation: {fileID: 5577600754845848353, guid: f0c0cbb98ebb82c42a680aa4ba43dae6, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 0
+  attributeModifiers:
+  - attribute: {fileID: -3152068501289261987, guid: 19cd95790063c544187f528930b094e0, type: 2}
+    value: 10
+--- !u!114 &-3192820369938113849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7178e2a5955209408c3072b10b3ddd8, type: 3}
+  m_Name: Sniper Rifle
+  m_EditorClassIdentifier: 
+  Name: Sniper Rifle
+  icon: {fileID: 21300000, guid: 5a5dae19192b3ce4caebf89b6275f04e, type: 3}
+  id: 13
+  description: 
+  gameRepresentation: {fileID: 1996899119344918800, guid: 523351c71935c614cb414d35d828b1f0, type: 3}
+  destroyAfterUse: 0
+  stackableAmount: 1
+--- !u!114 &-690764137956288503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd885c405e5e48dab5744c63780ce767, type: 3}
+  m_Name: Burger Cheese
+  m_EditorClassIdentifier: 
+  Name: Burger Cheese
+  icon: {fileID: 21300000, guid: 81320f2ba5d3bc44fa176497795f8fc3, type: 3}
+  id: 2
+  description: 
+  gameRepresentation: {fileID: 336252515117858852, guid: a77eee37c7893e24ea8a12e578efe351, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 5
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e846bac4a7c6e7e49a6ba7d2103017c6, type: 3}
+  m_Name: ItemDatabase
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 2911521672053045260}
+  - {fileID: 5707880082111500764}
+  - {fileID: -690764137956288503}
+  - {fileID: 8564090574209729992}
+  - {fileID: 712408355901124834}
+  - {fileID: 624199869167761361}
+  - {fileID: 4288817152105571903}
+  - {fileID: -5689517270252818026}
+  - {fileID: -3192820369938113849}
+  - {fileID: 1807738932418551114}
+  - {fileID: -5780352482428241784}
+  - {fileID: -5543966957061363371}
+  - {fileID: 2937352367073685319}
+  isEnabled: 1
+  id: 20
+--- !u!114 &624199869167761361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd885c405e5e48dab5744c63780ce767, type: 3}
+  m_Name: Croissant
+  m_EditorClassIdentifier: 
+  Name: Croissant
+  icon: {fileID: 21300000, guid: 7c4e8581347f576419854d08f4805a4d, type: 3}
+  id: 6
+  description: 
+  gameRepresentation: {fileID: 944308066239849584, guid: 4b65efa060dc0224da76421a7dc753f4, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 5
+--- !u!114 &712408355901124834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd885c405e5e48dab5744c63780ce767, type: 3}
+  m_Name: Chocolate
+  m_EditorClassIdentifier: 
+  Name: Chocolate
+  icon: {fileID: 21300000, guid: 986d47a72a36e6148b7d6d3249d0ed85, type: 3}
+  id: 4
+  description: 
+  gameRepresentation: {fileID: 4433942548326908307, guid: 714a9292ee4620c46a63d05fadffce05, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 5
+--- !u!114 &1807738932418551114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7178e2a5955209408c3072b10b3ddd8, type: 3}
+  m_Name: Blaster
+  m_EditorClassIdentifier: 
+  Name: Blaster
+  icon: {fileID: 21300000, guid: ffccf8d4a28139a4ca207b9866a74bd7, type: 3}
+  id: 14
+  description: 
+  gameRepresentation: {fileID: 4570784292279391007, guid: 5867b89f91ebc494493db18c73a8a8a4, type: 3}
+  destroyAfterUse: 0
+  stackableAmount: 1
+--- !u!114 &2911521672053045260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd885c405e5e48dab5744c63780ce767, type: 3}
+  m_Name: Apple
+  m_EditorClassIdentifier: 
+  Name: Apple
+  icon: {fileID: 21300000, guid: 61c72af7e721df047b38f83d22b40bbb, type: 3}
+  id: 0
+  description: 
+  gameRepresentation: {fileID: 7758224993997713506, guid: c504a55e55d7862459bbc4dd5e8bc8bc, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 5
+--- !u!114 &2937352367073685319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19e9417a6c64f37beae4a668111c6b8, type: 3}
+  m_Name: Poison Potion
+  m_EditorClassIdentifier: 
+  Name: Poison Potion
+  icon: {fileID: 21300000, guid: c424654338e38f046bd247aeed5e5964, type: 3}
+  id: 17
+  description: 
+  gameRepresentation: {fileID: 3567094894985452978, guid: ec34c2b69533f5e49a045fe3aefe0db5, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 0
+  attributeModifiers:
+  - attribute: {fileID: 2621194000688471153, guid: 19cd95790063c544187f528930b094e0, type: 2}
+    value: -20
+--- !u!114 &4288817152105571903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd885c405e5e48dab5744c63780ce767, type: 3}
+  m_Name: Ice Cream
+  m_EditorClassIdentifier: 
+  Name: Ice Cream
+  icon: {fileID: 21300000, guid: ad9d76d8674d2ec40a11903fd3794914, type: 3}
+  id: 7
+  description: 
+  gameRepresentation: {fileID: 5608827344822711189, guid: a877fbb9bdf4d9f47b35a9f99b311b74, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 5
+--- !u!114 &5707880082111500764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd885c405e5e48dab5744c63780ce767, type: 3}
+  m_Name: Banana
+  m_EditorClassIdentifier: 
+  Name: Banana
+  icon: {fileID: 21300000, guid: 5e2bff3ad1742e44a8868c6afdd78fb6, type: 3}
+  id: 1
+  description: 
+  gameRepresentation: {fileID: 5512231852056579344, guid: c4b8b5132839374469fbee904e3d94e3, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 5
+--- !u!114 &8564090574209729992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd885c405e5e48dab5744c63780ce767, type: 3}
+  m_Name: Cake
+  m_EditorClassIdentifier: 
+  Name: Cake
+  icon: {fileID: 21300000, guid: ad60bd70d2680cc47937bacfe8ed8402, type: 3}
+  id: 3
+  description: 
+  gameRepresentation: {fileID: 9030097948428615509, guid: 6bedebb8ae665f147984676e23418a4a, type: 3}
+  destroyAfterUse: 1
+  stackableAmount: 5
