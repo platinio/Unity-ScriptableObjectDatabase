@@ -8,10 +8,6 @@ Install from the [Unity Asset Store](https://assetstore.unity.com/packages/slug/
 
 Import [this](https://github.com/platinio/Unity-ScriptableObjectDatabase/releases/download/1.1/SOD_1.1.unitypackage) Unity package into your project.
 
-# Dependencies
-
-Scriptable Object Database depends on Unity-AdvanceDropdown, so if you want to clone this, you will need to clone both reporistories.
-
 # Getting Started
 
 If you prefer here is a youtube video.
@@ -130,4 +126,8 @@ public class DropdownTest : MonoBehaviour
     private ItemDefinition item;
 }
 ```
+
+# Dependencies
+
+Scriptable Object Database depends on Unity-AdvanceDropdown, so if you want to clone this, you will need to clone both reporistories.
 
