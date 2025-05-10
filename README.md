@@ -15,13 +15,12 @@ Scriptable Object Database depends on Unity-AdvanceDropdown, so if you want to c
 # Getting Started
 
 If you prefer here is a youtube video.
+
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=ILqRAyVZgZc
 " target="_blank"><img src="http://img.youtube.com/vi/ILqRAyVZgZc/0.jpg" 
 alt="Best way to manage Scriptable Objects in Unity (Free Asset!)" width="240" height="180" border="10" /></a>
 
 Longer text version [here](https://www.arcaneonyx.com/scriptable-object-database).
----
-
 
 # Creating a Database
 
