@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
 
 namespace ArcaneOnyx.ScriptableObjectDatabase
@@ -95,6 +96,11 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 toolbarMenu.menu.AppendAction($"Create/{type.Name}", dropdownMenuAction =>
                 {
                     CreateNewEntry(type);
+
+                    if (selectedItem == null || !GetFilteredEntries().Contains(selectedItem))
+                    {
+                        ChangeSelection(0);
+                    }
                 });
             }
         }
@@ -186,6 +192,8 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             if (EditorUtility.DisplayDialog("Delete selected item?", $"\"{selectedItem.name}\" will be deleted\n \n \nYou can't undo this action", 
                     "Delete Forever", "Cancel"))
             {
+                var selectedIndex = GetFilteredEntries().ToList().IndexOf(selectedItem);
+                
                 var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
                 if (inspectorElement != null) databaseEditor.Remove(inspectorElement);
 
@@ -199,6 +207,11 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             
                 CreateDatabaseListGUI(rootVisualElement);
                 RebuildDatabaseList(rootVisualElement);
+                
+                IReadOnlyList<Entry> items = GetFilteredEntries();
+                if (selectedIndex >= items.Count) selectedIndex = items.Count - 1;
+                ChangeSelection(selectedIndex);
+                UpdateInspector();
             }
         }
 
@@ -259,6 +272,8 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         protected virtual void ChangeSelection(int index)
         {
             IReadOnlyList<Entry> items = GetFilteredEntries();
+            if (items.Count == 0) return;
+            
             if (index >= items.Count) return;
             
             ChangeSelection(items[index]);
