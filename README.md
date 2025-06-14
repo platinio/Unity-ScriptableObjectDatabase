@@ -131,5 +131,5 @@ public class DropdownTest : MonoBehaviour
 
 # Dependencies
 
-Scriptable Object Database depends on [Unity-AdvanceDropdown](https://github.com/platinio/Unity-AdvancedDropdown), so if you want to clone this, you will need to clone both reporistories.
+Scriptable Object Database depends on [Unity-AdvanceDropdown](https://github.com/platinio/Unity-AdvancedDropdown), so if you want to clone this, you will need to clone both repositories.
 
