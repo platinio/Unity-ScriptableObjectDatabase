@@ -11,7 +11,7 @@
    },
   "samples": [
         {
-            "displayName": "Enum Sample",
+            "displayName": "Inventory",
             "description": "",
             "path": "Samples~/Inventory"
         }
