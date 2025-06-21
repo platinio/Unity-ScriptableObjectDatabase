@@ -11,7 +11,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
     /// </summary>
     public class ScriptableDatabase<T> : ScriptableObject where T : ScriptableItem
     {
-        [SerializeField] protected List<T> items;
+        [SerializeField] protected List<T> items = new();
         [SerializeField] private bool isEnabled = true;
         [SerializeField, HideInInspector] private uint id = 0;
 
