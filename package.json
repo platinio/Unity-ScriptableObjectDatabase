@@ -7,7 +7,7 @@
   "description": "", 
   "dependencies": 
    {
-     "com.arcaneonyx.advanceddropdown": "git://github.com/platinio/Unity-AdvancedDropdown.git#1.0.1"
+     "com.arcaneonyx.advanceddropdown": "https://github.com/platinio/Unity-AdvancedDropdown.git#1.0.1"
    },
   "samples": [
         {
