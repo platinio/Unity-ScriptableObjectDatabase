@@ -2,12 +2,12 @@
   "name": "com.arcaneonyx.scriptableobjectdatabase",
   "displayName": "Scriptable Object Database",
   "author": { "name": "James Roman", "url": "https://github.com/platinio" },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "unity": "2022.3",
   "description": "", 
   "dependencies": 
    {
-     "com.arcaneonyx.advanceddropdown": "git://github.com/platinio/Unity-AdvancedDropdown.git"
+     "com.arcaneonyx.advanceddropdown": "git://github.com/platinio/Unity-AdvancedDropdown.git#1.0.1"
    },
   "samples": [
         {
