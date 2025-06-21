@@ -7,11 +7,11 @@
   "description": "", 
   "dependencies": 
    {
-     "com.arcaneonyx.advanceddropdown": "https://github.com/platinio/Unity-AdvancedDropdown.git"
+     "com.arcaneonyx.advanceddropdown": "git://github.com/platinio/Unity-AdvancedDropdown.git"
    },
   "samples": [
         {
-            "displayName": "Inventory",
+            "displayName": "Enum Sample",
             "description": "",
             "path": "Samples~/Inventory"
         }
