@@ -75,6 +75,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             
             selectedCategory = selection.FirstOrDefault() as Category;
             UpdateSelectedCategory();
+            ChangeSelection(0);
         }
 
         protected override void DuplicateEntry(DropdownMenuAction dropdownMenuAction)
