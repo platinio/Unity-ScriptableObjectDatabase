@@ -37,9 +37,13 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             VisualElement labelFromUXML = visualTreeAssetElement.Instantiate();
             root.Add(labelFromUXML);
 
+            activeDatabases = ScriptableDatabaseUtil.GetDatabases<Database>();
+            
+            SetSelectedDatabase();
             CreateCategoryListGUI(root);
             CreateDatabaseListGUI(root);
             SetupToolBar(root.Q<ToolbarMenu>());
+            SetupDatabaseDropdown(root.Q<DropdownField>());
             
             //select first item on open
             if (selectedItem == null) ChangeSelection(0);

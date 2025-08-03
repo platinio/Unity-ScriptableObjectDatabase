@@ -20,7 +20,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         protected InspectorElement inspectorElement = null;
         private Database selectedDatabase;
         protected Entry selectedItem;
-        private List<Database> activeDatabases;
+        protected List<Database> activeDatabases;
         private Dictionary<Type, Database> databaseCache = new();
 
         public abstract string GetWindowTitle();
@@ -65,7 +65,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             if (selectedItem == null) ChangeSelection(0);
         }
 
-        private void SetSelectedDatabase()
+        protected void SetSelectedDatabase()
         {
             string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
             if (EditorPrefs.HasKey(databaseKey))
@@ -117,7 +117,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             selectedDatabase.MigrateIds();
         }
 
-        private void SetupDatabaseDropdown(DropdownField dropdownField)
+        protected void SetupDatabaseDropdown(DropdownField dropdownField)
         {
             dropdownField.choices = activeDatabases.Select(x => x.name).ToList();
             dropdownField.index = activeDatabases.IndexOf(selectedDatabase);
