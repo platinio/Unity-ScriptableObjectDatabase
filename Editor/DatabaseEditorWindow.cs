@@ -28,6 +28,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         public Database SelectedDatabase => selectedDatabase;
         public Entry SelectedItem => selectedItem;
         
+        private const string PrefsDatabaseKey = "{0}_SelectedDatabase";
         
         public virtual void CreateGUI()
         {
@@ -66,7 +67,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         private void SetSelectedDatabase()
         {
-            string databaseKey = $"{typeof(Database).Name}_SelectedDatabase";
+            string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
             if (EditorPrefs.HasKey(databaseKey))
             {
                 string guid = EditorPrefs.GetString(databaseKey);
@@ -126,9 +127,13 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 selectedDatabase = activeDatabases[dropdownField.index];
                 selectedItem = null;
                 
+                string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
+                EditorPrefs.SetString(databaseKey, selectedDatabase.GetGuid());
+                
                 CreateDatabaseListGUI(rootVisualElement);
                 RebuildDatabaseList(rootVisualElement);
                 ClearInspector();
+                ChangeSelection(0);
             });
         }
 

@@ -69,6 +69,14 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 #endif
         }
 
+        public string GetGuid()
+        {
+            string assetPath = AssetDatabase.GetAssetPath(this);
+            string guid = AssetDatabase.AssetPathToGUID(assetPath);
+
+            return guid;
+        }
+
         public void MigrateIds()
         {
             foreach (var item in items)

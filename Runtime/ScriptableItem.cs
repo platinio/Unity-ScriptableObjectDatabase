@@ -1,7 +1,4 @@
-﻿#if UNITY_EDITOR
-using UnityEditor;
-#endif
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ArcaneOnyx.ScriptableObjectDatabase
 {
@@ -10,7 +7,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         public string Name;
 
         [SerializeField] private Sprite icon;
-        [SerializeField] protected string id;
+        [SerializeField, HideInInspector] protected string id;
        
         public string Id => id;
         public Sprite Icon => icon;
