@@ -8,6 +8,23 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 {
     public static class ScriptableDatabaseUtil
     {
+        public static Database GetDatabaseWhichContainsItem<Item, Database>(Item item)
+            where Item : ScriptableItem 
+            where Database : ScriptableDatabase<Item>
+        {
+            var databases = GetDatabases<Database>();
+
+            foreach (var database in databases)
+            {
+                if (database.Contains(item))
+                {
+                    return database;
+                }
+            }
+
+            return null;
+        }
+
         public static Database GetDatabase<Database>(string databaseGuid) where Database : ScriptableObject
         {
            var guids = AssetDatabase.FindAssets($"t:{typeof(Database).Name}");

@@ -289,6 +289,20 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
            ChangeSelection(entry);
         }
 
+        public void ChangeDatabaseSelection(Database database)
+        {
+            selectedDatabase = database;
+            selectedItem = null;
+                
+            string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
+            EditorPrefs.SetString(databaseKey, selectedDatabase.GetGuid());
+                
+            CreateDatabaseListGUI(rootVisualElement);
+            RebuildDatabaseList(rootVisualElement);
+            ClearInspector();
+            ChangeSelection(0);
+        }
+
         public virtual void ChangeSelection(Entry item)
         {
             if (item == null) return;
