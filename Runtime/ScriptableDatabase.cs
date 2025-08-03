@@ -71,10 +71,14 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         public string GetGuid()
         {
+#if UNITY_EDITOR
             string assetPath = AssetDatabase.GetAssetPath(this);
             string guid = AssetDatabase.AssetPathToGUID(assetPath);
 
             return guid;
+#else
+            return string.Empty;
+#endif
         }
 
         public void MigrateIds()
