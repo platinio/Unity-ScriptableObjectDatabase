@@ -7,13 +7,6 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         where Database : ScriptableDatabase<Entry> 
         where Entry : ScriptableItem
     {
-        private SerializedProperty isEnabledProperty = null;
-
-        private void OnEnable()
-        {
-            isEnabledProperty = serializedObject.FindProperty("isEnabled");
-        }
-
         public override void OnInspectorGUI()
         {
             if (GUILayout.Button("Open Editor Window"))
@@ -21,9 +14,6 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 DatabaseEditorWindowType wnd = EditorWindow.GetWindow<DatabaseEditorWindowType>();
                 wnd.titleContent = new GUIContent(wnd.GetWindowTitle());
             }
-            
-            EditorGUILayout.PropertyField(isEnabledProperty);
-            serializedObject.ApplyModifiedProperties();
         }
     }
 }
