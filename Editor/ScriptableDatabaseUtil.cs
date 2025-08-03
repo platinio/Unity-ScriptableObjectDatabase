@@ -95,7 +95,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
                 var database = AssetDatabase.LoadAssetAtPath(path, typeof(Database)) as Database;
-                if (database == null || !database.IsEnabled()) continue;
+                if (database == null) continue;
 
                 AssetDatabase.SaveAssetIfDirty(database);
             }

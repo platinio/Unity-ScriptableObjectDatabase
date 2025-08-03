@@ -12,8 +12,6 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
     public class ScriptableDatabase<T> : ScriptableObject where T : ScriptableItem
     {
         [SerializeField] protected List<T> items = new();
-        [SerializeField] private bool isEnabled = true;
-        [SerializeField] private bool isMainDatabase = true;
         [SerializeField, HideInInspector] private int id = 0;
 
         public int Count => items.Count;
@@ -27,10 +25,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         {
             return items.Find(x => x.name == itemName);
         }
-
-        public bool IsEnabled() => isEnabled;
-        public bool IsMainDatabse() => isEnabled && isMainDatabase;
-
+       
         public void OnSave()
         {
             foreach (var item in items)
