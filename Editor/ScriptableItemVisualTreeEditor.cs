@@ -9,10 +9,13 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         {
             ItemEditorWindow wnd = EditorWindow.GetWindow<ItemEditorWindow>();
             wnd.titleContent = new GUIContent(wnd.GetWindowTitle());
-                
-            var database = ScriptableDatabaseUtil.GetDatabaseWhichContainsItem<Item, Database>(target as Item);
-            wnd.ChangeDatabaseSelection(database);
-            wnd.ChangeSelection(target as Item);
+            
+            EditorApplication.delayCall += () =>
+            {
+                var database = ScriptableDatabaseUtil.GetDatabaseWhichContainsItem<Item, Database>(target as Item);
+                wnd.ChangeDatabaseSelection(database);
+                wnd.ChangeSelection(target as Item);
+            };
         }
     }
 }
