@@ -112,7 +112,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             toolbarMenu.menu.AppendAction("Save", Save);
         }
 
-        private void MigrateIds()
+        protected void MigrateIds()
         {
             selectedDatabase.MigrateIds();
         }
