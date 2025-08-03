@@ -7,12 +7,10 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
     public sealed class ScriptableItemDatabaseSelector : PropertyAttribute
     {
         public Type DatabaseType;
-        public string DatabaseName;
 
-        public ScriptableItemDatabaseSelector(Type databaseType, string name = null)
+        public ScriptableItemDatabaseSelector(Type databaseType)
         {
             DatabaseType = databaseType;
-            DatabaseName = name;
         }
     }
 }

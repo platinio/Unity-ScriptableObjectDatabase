@@ -101,15 +101,10 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             return dropDownItems;
         }
 
-        private IEnumerable<ScriptableItem> GetScriptableItems()
+        private List<ScriptableItem> GetScriptableItems()
         {
             var attr = attribute as ScriptableItemDatabaseSelector;
-            var database = ScriptableDatabaseLoader.LoadDatabase(attr.DatabaseType);
-            if (database == null) return null;
-
-            var methodIndo = database.GetType().GetMethod("GetItems");
-            var result = methodIndo.Invoke(database, null);
-            return result as IEnumerable<ScriptableItem>;
+            return ScriptableDatabaseUtil.GetDropdownOptions(attr.DatabaseType);
         }
 
         private string GetSelectedItemName(SerializedProperty property)

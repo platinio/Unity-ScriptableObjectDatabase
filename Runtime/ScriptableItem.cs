@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using UnityEngine;
 
 namespace ArcaneOnyx.ScriptableObjectDatabase
 {
@@ -7,9 +10,9 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         public string Name;
 
         [SerializeField] private Sprite icon;
-        [SerializeField, HideInInspector] protected uint id;
+        [SerializeField] protected string id;
        
-        public uint Id => id;
+        public string Id => id;
         public Sprite Icon => icon;
 
         public virtual void OnSave()
@@ -17,7 +20,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             name = Name;
         }
 
-        public void SetId(uint id)
+        public void SetId(string id)
         {
             this.id = id;
         }

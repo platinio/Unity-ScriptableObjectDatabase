@@ -18,12 +18,16 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         [SerializeField] protected VisualTreeAsset listElementTreeAsset;
 
         protected InspectorElement inspectorElement = null;
+        private Database selectedDatabase;
         protected Entry selectedItem;
+        private List<Database> activeDatabases;
         private Dictionary<Type, Database> databaseCache = new();
 
         public abstract string GetWindowTitle();
 
+        public Database SelectedDatabase => selectedDatabase;
         public Entry SelectedItem => selectedItem;
+        
         
         public virtual void CreateGUI()
         {
@@ -49,13 +53,32 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             VisualElement labelFromUXML = visualTreeAssetElement.Instantiate();
             root.Add(labelFromUXML);
 
+            activeDatabases = ScriptableDatabaseUtil.GetDatabases<Database>();
+            
+            SetSelectedDatabase();
             CreateDatabaseListGUI(root);
             SetupToolBar(root.Q<ToolbarMenu>());
+            SetupDatabaseDropdown(root.Q<DropdownField>());
             
             //select first item on open
             if (selectedItem == null) ChangeSelection(0);
         }
-        
+
+        private void SetSelectedDatabase()
+        {
+            string databaseKey = $"{typeof(Database).Name}_SelectedDatabase";
+            if (EditorPrefs.HasKey(databaseKey))
+            {
+                string guid = EditorPrefs.GetString(databaseKey);
+                selectedDatabase = ScriptableDatabaseUtil.GetDatabase<Database>(guid);
+            }
+            
+            if (selectedDatabase == null)
+            {
+                selectedDatabase = ScriptableDatabaseUtil.GetDatabases<Database>().FirstOrDefault();
+            }
+        }
+
         protected VisualTreeAsset GetListElementTreeAssetOrDefault()
         {
             if (listElementTreeAsset == null) return LoadAssetByName("ListElementTreeAsset");
@@ -84,7 +107,29 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             toolbarMenu.menu.AppendAction("Remove Selected Item", RemoveEntry);
             toolbarMenu.menu.AppendAction("Move Up", (_) => MoveSelectedItem(-1));
             toolbarMenu.menu.AppendAction("Move Down", (_) => MoveSelectedItem(1));
+            toolbarMenu.menu.AppendAction("Migrate Ids", (_) => MigrateIds());
             toolbarMenu.menu.AppendAction("Save", Save);
+        }
+
+        private void MigrateIds()
+        {
+            selectedDatabase.MigrateIds();
+        }
+
+        private void SetupDatabaseDropdown(DropdownField dropdownField)
+        {
+            dropdownField.choices = activeDatabases.Select(x => x.name).ToList();
+            dropdownField.index = activeDatabases.IndexOf(selectedDatabase);
+            
+            dropdownField.RegisterValueChangedCallback((evt) =>
+            {
+                selectedDatabase = activeDatabases[dropdownField.index];
+                selectedItem = null;
+                
+                CreateDatabaseListGUI(rootVisualElement);
+                RebuildDatabaseList(rootVisualElement);
+                ClearInspector();
+            });
         }
 
         protected void AddCreateItemOptions(ToolbarMenu toolbarMenu)
@@ -124,14 +169,13 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         protected virtual void MoveSelectedItem(int dir)
         {
             if (selectedItem == null) return;
-
-            var database = GetDatabase();
-            var items = FilterEntries(database.Items);
+            
+            var items = FilterEntries(selectedDatabase.Items);
 
             int targetIndex = GetSelectedItemIndex() + dir;
-            if (targetIndex < 0 || targetIndex >= database.Items.Count) return;
+            if (targetIndex < 0 || targetIndex >= selectedDatabase.Items.Count) return;
             
-            database.SwapItems(selectedItem, items[targetIndex]);
+            selectedDatabase.SwapItems(selectedItem, items[targetIndex]);
             
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
@@ -140,9 +184,8 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         private int GetSelectedItemIndex()
         {
             if (selectedItem == null) return -1;
-        
-            var database = GetDatabase();
-            var items = FilterEntries(database.Items);
+          
+            var items = FilterEntries(selectedDatabase.Items);
 
             for (int i = 0; i < items.Count; i++)
             {
@@ -154,9 +197,8 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         protected Entry CreateNewEntry(Type type)
         {
-            var database = GetDatabase();
             var newEntry = CreateInstance(type) as Entry;
-            database.AddItem(newEntry);
+            selectedDatabase.AddItem(newEntry);
             
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
@@ -177,9 +219,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             if (selectedItem == null) return;
             
             var clone = Instantiate(selectedItem);
-
-            var database = GetDatabase();
-            database.AddItem(clone);
+            selectedDatabase.AddItem(clone);
             
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
@@ -196,13 +236,11 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 
                 var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
                 if (inspectorElement != null) databaseEditor.Remove(inspectorElement);
-
-                var database = GetDatabase();
-                database.RemoveItem(selectedItem);
-            
+              
+                selectedDatabase.RemoveItem(selectedItem);
                 DestroyImmediate(selectedItem, true);
-            
-                EditorUtility.SetDirty(database);
+                EditorUtility.SetDirty(selectedDatabase);
+                
                 SaveInternal();
             
                 CreateDatabaseListGUI(rootVisualElement);
@@ -219,9 +257,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         private void SaveInternal()
         {
-            var database = GetDatabase();
-            database.OnSave();
-            AssetDatabase.SaveAssetIfDirty(database);
+            ScriptableDatabaseUtil.SaveDatabase<Entry, Database>();
             
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
@@ -255,13 +291,25 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             selectedItem = item;
 
             var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
-            if (inspectorElement != null && databaseEditor.Contains(inspectorElement)) databaseEditor.Remove(inspectorElement);
+            if (inspectorElement != null && databaseEditor.Contains(inspectorElement))
+            {
+                databaseEditor.Remove(inspectorElement);
+            }
 
             inspectorElement = new InspectorElement(new SerializedObject(item));
             databaseEditor.Add(inspectorElement);
            
             var listView = rootVisualElement.Q("ItemListView") as ListView;
             listView.selectedIndex = GetSelectedItemIndex();
+        }
+        
+        private void ClearInspector()
+        {
+            var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
+            if (inspectorElement != null && databaseEditor.Contains(inspectorElement))
+            {
+                databaseEditor.Remove(inspectorElement);
+            }
         }
 
         public void UpdateInspector()
@@ -281,10 +329,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         protected IReadOnlyList<Entry> GetFilteredEntries()
         {
-            var database = GetDatabase();
-            IReadOnlyList<Entry> items = database.Items;
-
-            return FilterEntries(items);
+            return FilterEntries(selectedDatabase.Items);
         }
 
         private void BindEntryItem(VisualElement element, int index)
@@ -308,18 +353,6 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             
             return listElementTreeAsset.CloneTree();
         }
-
-        protected Database GetDatabase()
-        {
-            if (databaseCache.TryGetValue(typeof(Database), out var database))
-            {
-                if (database == null || !database.IsEnabled()) databaseCache.Remove(typeof(Database));
-                else return database;
-            }
-
-            database = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
-            databaseCache[typeof(Database)] = database;
-            return database;
-        } 
+        
     }
 }

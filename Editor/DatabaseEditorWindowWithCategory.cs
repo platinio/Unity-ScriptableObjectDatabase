@@ -89,11 +89,8 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         protected void UpdateSelectedCategory()
         {
-            var skillDatabase = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Database;
-            IReadOnlyList<Entry> items = skillDatabase.Items;
-        
             var listView = rootVisualElement.Q("ItemListView") as ListView;
-            items = FilterEntries(items);
+            var items = FilterEntries(SelectedDatabase.Items);
 
             listView.itemsSource = (IList)items;
             listView.RefreshItems();

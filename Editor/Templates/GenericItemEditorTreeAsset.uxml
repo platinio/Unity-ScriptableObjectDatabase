@@ -1,10 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/Modules/Unity-ScriptableObjectDatabase/Editor/Templates/GenericEditorUSS.uss?fileID=7433441132597879392&amp;guid=94c1a3a8f8e59b840bfbaf82d8b1cee9&amp;type=3#GenericEditorUSS" />
     <ui:VisualElement name="Root" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: column;">
-        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); padding-bottom: 25px;">
+        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); padding-bottom: 25px; flex-direction: row;">
             <uie:Toolbar>
                 <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" />
             </uie:Toolbar>
+            <ui:DropdownField name="DatabaseDropdown" style="min-height: 21px;" />
         </ui:VisualElement>
         <ui:VisualElement name="Container" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
             <ui:ListView focusable="true" name="ItemListView" fixed-item-height="50" style="min-width: 15%; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);" />

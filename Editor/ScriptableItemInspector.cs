@@ -15,20 +15,5 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 
             wnd.ChangeSelection(target as Entry);
         }
-
-        public void OnDisable()
-        {
-            ScriptableItem item = target as ScriptableItem;
-            if (item == null) return;
-
-            if (item.name != item.Name)
-            {
-                item.name = item.Name;
-
-                var db = ScriptableDatabaseLoader.LoadDatabase(typeof(Database)) as Object;
-                EditorUtility.SetDirty(db);
-                AssetDatabase.SaveAssets();
-            }
-        }
     }
 }

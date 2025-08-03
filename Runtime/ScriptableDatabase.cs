@@ -13,14 +13,15 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
     {
         [SerializeField] protected List<T> items = new();
         [SerializeField] private bool isEnabled = true;
-        [SerializeField, HideInInspector] private uint id = 0;
+        [SerializeField] private bool isMainDatabase = true;
+        [SerializeField, HideInInspector] private int id = 0;
 
         public int Count => items.Count;
         public IReadOnlyList<T> Items => items;
 
-        private uint GetUniqueId() => id++;
+        private int GetUniqueId() => id++;
 
-        public T GetItem(uint itemId) => items.Find(x => x.Id == itemId);
+        public T GetItem(string itemId) => items.Find(x => x.Id == itemId);
 
         public T GetItemByName(string itemName)
         {
@@ -28,6 +29,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         }
 
         public bool IsEnabled() => isEnabled;
+        public bool IsMainDatabse() => isEnabled && isMainDatabase;
 
         public void OnSave()
         {
@@ -40,17 +42,46 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         public void AddItem(T item)
         {
             if (items.Contains(item)) return;
-            
-            item.SetId(GetUniqueId());
+
+
+            string id = GetId(GetUniqueId());
+            item.SetId(id);
             items.Add(item);
             
-            item.name = $"Item {item.Id}";
+            item.name = "New Item";
             item.Name = item.name;
 
             #if UNITY_EDITOR
             AssetDatabase.AddObjectToAsset(item, this);
             EditorUtility.SetDirty(this);
             #endif
+        }
+        
+        private string GetId(int idx)
+        {
+#if UNITY_EDITOR
+            string assetPath = AssetDatabase.GetAssetPath(this);
+            string guid = AssetDatabase.AssetPathToGUID(assetPath);
+
+            return $"{guid}_{idx}";
+#else
+            return string.Empty;
+#endif
+        }
+
+        public void MigrateIds()
+        {
+            foreach (var item in items)
+            {
+                if (int.TryParse(item.Id, out int idx))
+                {
+                    item.SetId(GetId(idx));
+                }
+            }
+            
+#if UNITY_EDITOR
+            EditorUtility.SetDirty(this);
+#endif
         }
 
         public void RemoveItem(T item)
