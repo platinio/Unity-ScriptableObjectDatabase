@@ -77,6 +77,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             if (selectedDatabase == null)
             {
                 selectedDatabase = ScriptableDatabaseUtil.GetDatabases<Database>().FirstOrDefault();
+                EditorPrefs.SetString(databaseKey, selectedDatabase.GetGuid());
             }
         }
 
