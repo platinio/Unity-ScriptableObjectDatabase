@@ -105,7 +105,6 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             where Item : ScriptableItem 
             where Database : ScriptableDatabase<Item>
         {
-            List<Item> result = new();
             var guids = AssetDatabase.FindAssets($"t:{typeof(Database).Name}");
 
             foreach (var guid in guids)
@@ -114,6 +113,11 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 var database = AssetDatabase.LoadAssetAtPath(path, typeof(Database)) as Database;
                 if (database == null) continue;
 
+                foreach (var item in database.Items)
+                {
+                    item.name = item.Name;
+                }
+                
                 AssetDatabase.SaveAssetIfDirty(database);
             }
         }
