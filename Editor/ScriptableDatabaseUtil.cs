@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,33 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 {
     public static class ScriptableDatabaseUtil
     {
+        private const string PrefsDatabaseKey = "{0}_SelectedDatabase";
+
+        public static void UpdateActiveDatabase<Item, Database>(Database database)
+            where Item : ScriptableItem 
+            where Database : ScriptableDatabase<Item>
+        {
+            string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
+            EditorPrefs.SetString(databaseKey, database.GetGuid());
+        }
+
+        public static Database GetActiveDatabase<Item, Database>()
+            where Item : ScriptableItem 
+            where Database : ScriptableDatabase<Item>
+        {
+            string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
+            if (EditorPrefs.HasKey(databaseKey))
+            {
+                string guid = EditorPrefs.GetString(databaseKey);
+                return GetDatabase<Database>(guid);
+            }
+            
+            var db = GetDatabases<Database>().FirstOrDefault();
+            EditorPrefs.SetString(databaseKey, db.GetGuid());
+
+            return db;
+        }
+        
         public static Database GetDatabaseWhichContainsItem<Item, Database>(Item item)
             where Item : ScriptableItem 
             where Database : ScriptableDatabase<Item>

@@ -28,8 +28,6 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         public Database SelectedDatabase => selectedDatabase;
         public Entry SelectedItem => selectedItem;
         
-        private const string PrefsDatabaseKey = "{0}_SelectedDatabase";
-        
         public virtual void CreateGUI()
         {
             var visualTreeAssetElement = GetVisualTreeAssetOrDefault();
@@ -67,18 +65,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         protected void SetSelectedDatabase()
         {
-            string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
-            if (EditorPrefs.HasKey(databaseKey))
-            {
-                string guid = EditorPrefs.GetString(databaseKey);
-                selectedDatabase = ScriptableDatabaseUtil.GetDatabase<Database>(guid);
-            }
-            
-            if (selectedDatabase == null)
-            {
-                selectedDatabase = ScriptableDatabaseUtil.GetDatabases<Database>().FirstOrDefault();
-                EditorPrefs.SetString(databaseKey, selectedDatabase.GetGuid());
-            }
+            selectedDatabase = ScriptableDatabaseUtil.GetActiveDatabase<Entry, Database>();
         }
 
         protected VisualTreeAsset GetListElementTreeAssetOrDefault()
@@ -128,8 +115,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 selectedDatabase = activeDatabases[dropdownField.index];
                 selectedItem = null;
                 
-                string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
-                EditorPrefs.SetString(databaseKey, selectedDatabase.GetGuid());
+                ScriptableDatabaseUtil.UpdateActiveDatabase<Entry, Database>(selectedDatabase);
                 
                 CreateDatabaseListGUI(rootVisualElement);
                 RebuildDatabaseList(rootVisualElement);
@@ -295,9 +281,8 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             selectedDatabase = database;
             selectedItem = null;
                 
-            string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
-            EditorPrefs.SetString(databaseKey, selectedDatabase.GetGuid());
-                
+            ScriptableDatabaseUtil.UpdateActiveDatabase<Entry, Database>(selectedDatabase);
+            
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
             ClearInspector();
