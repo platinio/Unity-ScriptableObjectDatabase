@@ -27,7 +27,12 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             if (EditorPrefs.HasKey(databaseKey))
             {
                 string guid = EditorPrefs.GetString(databaseKey);
-                return GetDatabase<Database>(guid);
+                var activeDb = GetDatabase<Database>(guid);
+
+                if (activeDb != null)
+                {
+                    return activeDb;
+                }
             }
             
             var db = GetDatabases<Database>().FirstOrDefault();
