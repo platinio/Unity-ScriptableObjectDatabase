@@ -124,7 +124,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             dropdownField.choices = activeDatabases.Select(x => x.name).ToList();
             dropdownField.index = activeDatabases.IndexOf(selectedDatabase);
             
-            dropdownField.RegisterValueChangedCallback((evt) =>
+            dropdownField.RegisterValueChangedCallback((_) =>
             {
                 selectedDatabase = activeDatabases[dropdownField.index];
                 selectedItem = null;
