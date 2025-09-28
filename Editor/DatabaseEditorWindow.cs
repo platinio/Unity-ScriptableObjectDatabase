@@ -7,6 +7,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace ArcaneOnyx.ScriptableObjectDatabase
 {
@@ -92,12 +93,25 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         protected virtual void SetupToolBar(ToolbarMenu toolbarMenu)
         {
             AddCreateItemOptions(toolbarMenu);
+            foreach (var database in activeDatabases)
+            {
+                toolbarMenu.menu.AppendAction($"Copy To/{database.name}", (_) => CopyTo(database, selectedItem));
+            }
             toolbarMenu.menu.AppendAction("Duplicate Selected Item", DuplicateEntry);
             toolbarMenu.menu.AppendAction("Remove Selected Item", RemoveEntry);
             toolbarMenu.menu.AppendAction("Move Up", (_) => MoveSelectedItem(-1));
             toolbarMenu.menu.AppendAction("Move Down", (_) => MoveSelectedItem(1));
             toolbarMenu.menu.AppendAction("Migrate Ids", (_) => MigrateIds());
             toolbarMenu.menu.AppendAction("Save", Save);
+        }
+
+        private void CopyTo(Database database, Entry entry)
+        {
+            var clone = Instantiate(entry);
+            database.AddItem(clone);
+
+            clone.name = entry.name;
+            clone.Name = entry.name;
         }
 
         protected void MigrateIds()
