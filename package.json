@@ -2,7 +2,7 @@
   "name": "com.arcaneonyx.scriptableobjectdatabase",
   "displayName": "Scriptable Object Database",
   "author": { "name": "ArcaneOnyx", "url": "https://github.com/platinio" },
-  "version": "2.0.0",
+  "version": "2.2.0",
   "unity": "2022.3",
   "description": "", 
   "dependencies": 
