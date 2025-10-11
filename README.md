@@ -4,11 +4,27 @@ Scriptable Object Database is the best way to organize and manage your scriptabl
 
 # How to Install?
 
+### Install from the Asset Store
+
 Install from the [Unity Asset Store](https://assetstore.unity.com/packages/slug/290278).
 
-Or
+### Install from Unity Package
 
 Import [This](https://github.com/platinio/Unity-ScriptableObjectDatabase/releases/download/2.1/Unity-ScriptableObjectDatabase.2.1.unitypackage) Unity package into your project.
+
+### Install using the package manager
+
+[How to install using the package manager](https://docs.unity3d.com/2020.1/Documentation/Manual/upm-ui-giturl.html)
+
+Install advanced dropdown (dependency) 
+```
+https://github.com/platinio/Unity-AdvancedDropdown.git
+```
+
+Install Scriptable Object Database
+```
+https://github.com/platinio/Unity-ScriptableObjectDatabase.git
+```
 
 # Getting Started
 
