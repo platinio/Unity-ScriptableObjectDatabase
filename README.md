@@ -8,14 +8,14 @@ Install from the [Unity Asset Store](https://assetstore.unity.com/packages/slug/
 
 Or
 
-Import [This](https://github.com/platinio/Unity-ScriptableObjectDatabase/releases/download/1.1/SOD_1.1.unitypackage) Unity package into your project.
+Import [This](https://github.com/platinio/Unity-ScriptableObjectDatabase/releases/download/2.1/Unity-ScriptableObjectDatabase.2.1.unitypackage) Unity package into your project.
 
 # Getting Started
 
 If you prefer here is a youtube video.
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=ILqRAyVZgZc
-" target="_blank"><img src="http://img.youtube.com/vi/ILqRAyVZgZc/0.jpg" 
+" target="_blank"><img src="http://img.youtube.com/vi/ILqRAyVZgZc/0.jpg"
 alt="Best way to manage Scriptable Objects in Unity (Free Asset!)" width="240" height="180" border="10" /></a>
 
 Longer text version [here](https://www.arcaneonyx.com/scriptable-object-database).
@@ -48,7 +48,7 @@ namespace ArcaneOnyx.InventorySample
     [CreateAssetMenu(menuName = "Sample/Database/Item Database")]
     public class ItemDefinitionDatabase : ScriptableDatabase<ItemDefinition>
     {
-   
+
     }
 }
 ```
@@ -62,11 +62,11 @@ using UnityEditor;
 namespace ArcaneOnyx.InventorySample
 {
     [CustomEditor(typeof(ItemDefinitionDatabase))]
-    public class ItemDefinitionDatabaseEditor : 
-        ScriptableItemDefaultEditor<ItemDefinitionDatabaseEditorWindow, 
+    public class ItemDefinitionDatabaseEditor :
+        ScriptableItemDefaultEditor<ItemDefinitionDatabaseEditorWindow,
             ItemDefinitionDatabase, ItemDefinition>
     {
-        
+
     }
 }
 ```
@@ -81,7 +81,7 @@ namespace ArcaneOnyx.InventorySample
     public class ItemDefinitionEditor : ScriptableItemEditor<ItemDefinitionDatabaseEditorWindow,
         ItemDefinitionDatabase, ItemDefinition>
     {
-        
+
     }
 }
 ```
@@ -97,7 +97,7 @@ using UnityEngine;
 
 namespace ArcaneOnyx.InventorySample
 {
-    public class ItemDefinitionDatabaseEditorWindow : 
+    public class ItemDefinitionDatabaseEditorWindow :
         DatabaseEditorWindow<ItemDefinitionDatabase, ItemDefinition>
     {
         [MenuItem("Window/Sample/Items Editor")]
@@ -106,7 +106,7 @@ namespace ArcaneOnyx.InventorySample
             ItemDefinitionDatabaseEditorWindow wnd = GetWindow<ItemDefinitionDatabaseEditorWindow>();
             wnd.titleContent = new GUIContent(wnd.GetWindowTitle());
         }
-        
+
         public override string GetWindowTitle() => "Item Definition Editor";
     }
 }
@@ -132,4 +132,3 @@ public class DropdownTest : MonoBehaviour
 # Dependencies
 
 Scriptable Object Database depends on [Unity-AdvanceDropdown](https://github.com/platinio/Unity-AdvancedDropdown), so if you want to clone this, you will need to clone both repositories.
-
