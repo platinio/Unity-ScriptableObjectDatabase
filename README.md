@@ -4,13 +4,9 @@ Scriptable Object Database is the best way to organize and manage your scriptabl
 
 # How to Install?
 
-### Install from the Asset Store
-
 Install from the [Unity Asset Store](https://assetstore.unity.com/packages/slug/290278).
 
-### Install from Unity Package
-
-Import [This](https://github.com/platinio/Unity-ScriptableObjectDatabase/releases/download/2.1/Unity-ScriptableObjectDatabase.2.1.unitypackage) Unity package into your project.
+Install using a Unity Package Import [This](https://github.com/platinio/Unity-ScriptableObjectDatabase/releases/download/2.1/Unity-ScriptableObjectDatabase.2.1.unitypackage) into your project.
 
 ### Install using the package manager
 
