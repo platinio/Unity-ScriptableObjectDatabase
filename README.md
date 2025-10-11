@@ -19,7 +19,7 @@ https://github.com/platinio/Unity-AdvancedDropdown.git
 
 Install Scriptable Object Database
 ```
-https://github.com/platinio/Unity-ScriptableObjectDatabase.git
+https://github.com/platinio/Unity-ScriptableObjectDatabase.git#2.1
 ```
 
 # Getting Started
