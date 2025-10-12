@@ -226,6 +226,9 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             
             var clone = Instantiate(selectedItem);
             selectedDatabase.AddItem(clone);
+
+            clone.name = selectedItem.name;
+            clone.Name = selectedItem.name;
             
             CreateDatabaseListGUI(rootVisualElement);
             RebuildDatabaseList(rootVisualElement);
