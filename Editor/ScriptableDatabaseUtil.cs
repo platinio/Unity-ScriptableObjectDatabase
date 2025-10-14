@@ -108,6 +108,24 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
             return result;
         }
+        
+        public static Item GetItemByName<Item, Database>(string itemName)
+            where Item : ScriptableItem 
+            where Database : ScriptableDatabase<Item>
+        {
+            var dbs = GetDatabases<Database>();
+
+            foreach (var db in dbs)
+            {
+                var item = db.GetItemByName(itemName);
+                if (item != null)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
 
         public static List<ScriptableItem> GetDropdownOptions(Type databaseType)
         {
