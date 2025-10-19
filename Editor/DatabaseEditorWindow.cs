@@ -250,7 +250,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 DestroyImmediate(selectedItem, true);
                 EditorUtility.SetDirty(selectedDatabase);
                 
-                SaveInternal();
+                SaveDatabaseChanges();
             
                 CreateDatabaseListGUI(rootVisualElement);
                 RebuildDatabaseList(rootVisualElement);
@@ -262,9 +262,9 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             }
         }
 
-        protected void Save(DropdownMenuAction dropdownMenuAction) => SaveInternal();
+        protected void Save(DropdownMenuAction dropdownMenuAction) => SaveDatabaseChanges();
 
-        private void SaveInternal()
+        public void SaveDatabaseChanges()
         {
             ScriptableDatabaseUtil.SaveDatabase<Entry, Database>();
             
