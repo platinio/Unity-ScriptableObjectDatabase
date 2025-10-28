@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ArcaneOnyx.AdvancedDropdown;
 using UnityEditor;
 using UnityEngine;
