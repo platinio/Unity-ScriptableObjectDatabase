@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ArcaneOnyx.ScriptableObjectDatabase
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-    public sealed class ScriptableItemDatabaseSelector : PropertyAttribute
+    public class ScriptableItemDatabaseSelector : PropertyAttribute
     {
         public Type DatabaseType;
 
