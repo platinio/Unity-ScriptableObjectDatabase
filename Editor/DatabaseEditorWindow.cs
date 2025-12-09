@@ -19,7 +19,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         [SerializeField] protected VisualTreeAsset listElementTreeAsset;
 
         protected InspectorElement inspectorElement = null;
-        private Database selectedDatabase;
+        protected Database selectedDatabase;
         protected Entry selectedItem;
         protected List<Database> activeDatabases;
         private Dictionary<Type, Database> databaseCache = new();
@@ -105,7 +105,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             toolbarMenu.menu.AppendAction("Save", Save);
         }
 
-        private void CopyTo(Database database, Entry entry)
+        protected void CopyTo(Database database, Entry entry)
         {
             var clone = Instantiate(entry);
             database.AddItem(clone);
