@@ -244,7 +244,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 var selectedIndex = GetFilteredEntries().ToList().IndexOf(selectedItem);
                 
                 var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
-                if (inspectorElement != null) databaseEditor.Remove(inspectorElement);
+                if (inspectorElement != null && databaseEditor.Contains(inspectorElement)) databaseEditor.Remove(inspectorElement);
               
                 selectedDatabase.RemoveItem(selectedItem);
                 DestroyImmediate(selectedItem, true);
