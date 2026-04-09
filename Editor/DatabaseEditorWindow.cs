@@ -102,6 +102,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             toolbarMenu.menu.AppendAction("Move Up", (_) => MoveSelectedItem(-1));
             toolbarMenu.menu.AppendAction("Move Down", (_) => MoveSelectedItem(1));
             toolbarMenu.menu.AppendAction("Migrate Ids", (_) => MigrateIds());
+            toolbarMenu.menu.AppendAction("Update Inspector", (_) => UpdateInspector());
             toolbarMenu.menu.AppendAction("Save", Save);
         }
 
@@ -325,7 +326,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             listView.selectedIndex = GetSelectedItemIndex();
         }
         
-        private void ClearInspector()
+        public void ClearInspector()
         {
             var databaseEditor = rootVisualElement.Q<VisualElement>("ItemEditor");
             if (inspectorElement != null && databaseEditor.Contains(inspectorElement))
@@ -336,7 +337,10 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         public void UpdateInspector()
         {
-            ChangeSelection(selectedItem);
+            EditorApplication.delayCall += () =>
+            {
+                ChangeSelection(selectedItem);
+            };
         }
 
         protected virtual void ChangeSelection(int index)
