@@ -102,7 +102,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             toolbarMenu.menu.AppendAction("Move Up", (_) => MoveSelectedItem(-1));
             toolbarMenu.menu.AppendAction("Move Down", (_) => MoveSelectedItem(1));
             toolbarMenu.menu.AppendAction("Migrate Ids", (_) => MigrateIds());
-            toolbarMenu.menu.AppendAction("Update Inspector", (_) => UpdateInspector());
+            toolbarMenu.menu.AppendAction("Reload Inspector", (_) => UpdateInspector());
             toolbarMenu.menu.AppendAction("Save", Save);
         }
 
