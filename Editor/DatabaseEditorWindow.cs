@@ -5,9 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 
 namespace ArcaneOnyx.ScriptableObjectDatabase
 {
@@ -22,8 +20,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         protected Database selectedDatabase;
         protected Entry selectedItem;
         protected List<Database> activeDatabases;
-        private Dictionary<Type, Database> databaseCache = new();
-
+       
         public abstract string GetWindowTitle();
 
         public Database SelectedDatabase => selectedDatabase;
