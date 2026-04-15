@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Callbacks;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -21,6 +22,8 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         protected Entry selectedItem;
         protected List<Database> activeDatabases;
        
+        private static readonly Dictionary<Type, List<Type>> typeCache = new();
+        
         public abstract string GetWindowTitle();
 
         public Database SelectedDatabase => selectedDatabase;
@@ -153,20 +156,22 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 });
             }
         }
-        
+
+        [DidReloadScripts]
+        private static void RebuildTypeCache() => typeCache.Clear();
+
         public IEnumerable<Type> GetEnumerableOfType(Type t)
         {
-            List<Type> types = new List<Type>();
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            foreach (var assembly in assemblies)
+            if (typeCache.TryGetValue(t, out var cached))
             {
-                foreach (var type in assembly.GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && t.IsAssignableFrom(myType)))
-                {
-                    types.Add(type);
-                }
+                return cached;
             }
 
+            var types = TypeCache.GetTypesDerivedFrom(t)
+                .Where(type => !type.IsAbstract)
+                .ToList();
+
+            typeCache[t] = types;
             return types;
         }
 
