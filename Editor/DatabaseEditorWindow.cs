@@ -21,8 +21,6 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         protected Database selectedDatabase;
         protected Entry selectedItem;
         protected List<Database> activeDatabases;
-       
-        private static readonly Dictionary<Type, List<Type>> typeCache = new();
         
         public abstract string GetWindowTitle();
 
@@ -157,21 +155,13 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             }
         }
 
-        [DidReloadScripts]
-        private static void RebuildTypeCache() => typeCache.Clear();
 
         public IEnumerable<Type> GetEnumerableOfType(Type t)
         {
-            if (typeCache.TryGetValue(t, out var cached))
-            {
-                return cached;
-            }
-
             var types = TypeCache.GetTypesDerivedFrom(t)
                 .Where(type => !type.IsAbstract)
                 .ToList();
-
-            typeCache[t] = types;
+          
             return types;
         }
 
