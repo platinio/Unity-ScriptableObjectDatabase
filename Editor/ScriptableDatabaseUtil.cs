@@ -36,6 +36,13 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             }
             
             var db = GetDatabases<Database>().FirstOrDefault();
+
+            if (db == null)
+            {
+                Debug.LogError($"There arent active databases of type {typeof(Database)}");
+                return null;
+            }
+
             EditorPrefs.SetString(databaseKey, db.GetGuid());
 
             return db;
