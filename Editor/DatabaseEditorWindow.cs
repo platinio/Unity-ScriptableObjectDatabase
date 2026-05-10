@@ -156,12 +156,17 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
         }
 
 
-        public IEnumerable<Type> GetEnumerableOfType(Type t)
+        public IEnumerable<Type> GetEnumerableOfType(Type t, bool includeSelf = false)
         {
             var types = TypeCache.GetTypesDerivedFrom(t)
                 .Where(type => !type.IsAbstract)
                 .ToList();
-          
+
+            if (includeSelf)
+            {
+                types.Add(t);
+            }
+
             return types;
         }
 
