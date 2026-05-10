@@ -139,7 +139,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
         protected void AddCreateItemOptions(ToolbarMenu toolbarMenu)
         {
-            var types = GetEnumerableOfType(typeof(Entry));
+            var types = GetEnumerableOfType(typeof(Entry), true);
 
             foreach (var type in types)
             {
