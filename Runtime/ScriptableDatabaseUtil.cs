@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 
@@ -15,14 +17,17 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             where Item : ScriptableItem 
             where Database : ScriptableDatabase<Item>
         {
+#if UNITY_EDITOR
             string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
             EditorPrefs.SetString(databaseKey, database.GetGuid());
+#endif
         }
 
         public static Database GetActiveDatabase<Item, Database>()
             where Item : ScriptableItem 
             where Database : ScriptableDatabase<Item>
         {
+#if UNITY_EDITOR
             string databaseKey = string.Format(PrefsDatabaseKey, typeof(Database).Name);
             if (EditorPrefs.HasKey(databaseKey))
             {
@@ -46,12 +51,16 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             EditorPrefs.SetString(databaseKey, db.GetGuid());
 
             return db;
+#else
+            return null;
+#endif
         }
         
         public static Database GetDatabaseWhichContainsItem<Item, Database>(Item item)
             where Item : ScriptableItem 
             where Database : ScriptableDatabase<Item>
         {
+#if UNITY_EDITOR
             var databases = GetDatabases<Database>();
 
             foreach (var database in databases)
@@ -61,12 +70,14 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                     return database;
                 }
             }
+#endif
 
             return null;
         }
 
         public static Database GetDatabase<Database>(string databaseGuid) where Database : ScriptableObject
         {
+#if UNITY_EDITOR
            var guids = AssetDatabase.FindAssets($"t:{typeof(Database).Name}");
 
             foreach (var guid in guids)
@@ -79,12 +90,14 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
 
                 return database;
             }
+#endif
 
             return null;
         }
         
         public static List<Database> GetDatabases<Database>() where Database : ScriptableObject
         {
+#if UNITY_EDITOR
             List<Database> databases = new();
             var guids = AssetDatabase.FindAssets($"t:{typeof(Database).Name}");
 
@@ -98,6 +111,9 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             }
 
             return databases;
+#else
+            return null;
+#endif
         }
 
 
@@ -105,6 +121,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             where Item : ScriptableItem 
             where Database : ScriptableDatabase<Item>
         {
+#if UNITY_EDITOR
             List<Item> result = new();
             var databases = GetDatabases<Database>();
 
@@ -114,12 +131,16 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             }
 
             return result;
+#else
+            return null;
+#endif
         }
         
         public static Item GetItemByName<Item, Database>(string itemName)
             where Item : ScriptableItem 
             where Database : ScriptableDatabase<Item>
         {
+#if UNITY_EDITOR
             var dbs = GetDatabases<Database>();
 
             foreach (var db in dbs)
@@ -130,12 +151,14 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                     return item;
                 }
             }
+#endif
 
             return null;
         }
 
         public static List<ScriptableItem> GetDropdownOptions(Type databaseType)
         {
+#if UNITY_EDITOR
             List<ScriptableItem> allItems = new();
             var guids = AssetDatabase.FindAssets($"t:{databaseType.Name}");
 
@@ -156,6 +179,9 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             }
 
             return allItems;
+#else
+            return null;
+#endif
         }
         
 
@@ -163,6 +189,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
             where Item : ScriptableItem 
             where Database : ScriptableDatabase<Item>
         {
+#if UNITY_EDITOR
             var guids = AssetDatabase.FindAssets($"t:{typeof(Database).Name}");
 
             foreach (var guid in guids)
@@ -178,6 +205,7 @@ namespace ArcaneOnyx.ScriptableObjectDatabase
                 
                 AssetDatabase.SaveAssetIfDirty(database);
             }
+#endif
         }
     }
 }
