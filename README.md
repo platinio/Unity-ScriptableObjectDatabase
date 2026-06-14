@@ -1,6 +1,12 @@
 # ScriptableObjectDatabase
 
-Scriptable Object Database is the best way to organize and manage your scriptable objects in Unity, forget about trying to organize your scriptable objects by hand with complicated folder structures, with this tool you can create as many scriptable objects as you need contained in a single object, a nice and easy to extend editor window to edit/create your scriptable objects and a custom dropdown to select those objects when you want to reference it from your scripts.
+A data management system for organizing, editing, and querying collections of ScriptableObject assets through a unified editor window and runtime API.
+
+# Overview
+
+Managing large numbers of ScriptableObjects across a project gets messy fast — assets scattered in folders, manual inspector assignments, no central place to browse or search. The Scriptable Object Database module gives you a structured alternative.
+
+You define an item type and a database type, create a database asset, and fill it through a dedicated editor window. At runtime you query items by name or ID. In the inspector, a dropdown attribute replaces manual asset references with a searchable selector tied to the database.
 
 # How to Install?
 
