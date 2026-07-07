@@ -1,19 +1,19 @@
 {
   "name": "com.arcaneonyx.scriptableobjectdatabase",
   "displayName": "Scriptable Object Database",
-  "author": { "name": "ArcaneOnyx", "url": "https://github.com/platinio" },
-  "version": "2.2.0",
+  "author": {
+    "name": "ArcaneOnyx",
+    "url": "https://github.com/platinio"
+  },
+  "version": "2.2.1",
   "unity": "2022.3",
-  "description": "", 
-  "dependencies": 
-   {
-     
-   },
+  "description": "",
+  "dependencies": {},
   "samples": [
-        {
-            "displayName": "Inventory",
-            "description": "",
-            "path": "Samples~/Inventory"
-        }
-    ]
+    {
+      "displayName": "Inventory",
+      "description": "",
+      "path": "Samples~/Inventory"
+    }
+  ]
 }

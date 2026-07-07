@@ -426,7 +426,7 @@ public static class CIBuild
 """
 
 
-def scaffold_project(repo, name, unity_version, deps):
+def scaffold_project(repo, name, unity_version, deps, exclude_prefixes=()):
     """Create a temp Unity project containing the tracked tool content."""
     proj = tempfile.mkdtemp(prefix=f"ci_{name}_")
     os.makedirs(os.path.join(proj, "ProjectSettings"))
@@ -439,6 +439,8 @@ def scaffold_project(repo, name, unity_version, deps):
     # copy every tracked file into Assets/<name>/, preserving structure
     dest_root = os.path.join(proj, "Assets", name)
     for rel in git(repo, "ls-files").splitlines():
+        if any(rel == p or rel.startswith(p + "/") for p in exclude_prefixes):
+            continue
         src = os.path.join(repo, rel)
         if not os.path.isfile(src):
             continue
@@ -479,9 +481,9 @@ def parse_test_results(xml_path):
 
 
 def verify_locally(repo, name, unity_version, deps, unity_exe, platforms, keep,
-                   dep_packages=(), build_scene=None):
+                   dep_packages=(), build_scene=None, exclude_prefixes=()):
     info(f"scaffolding throwaway Unity {unity_version} project ({len(deps)} deps) ...")
-    proj = scaffold_project(repo, name, unity_version, deps)
+    proj = scaffold_project(repo, name, unity_version, deps, exclude_prefixes)
     for dep in dep_packages:
         n = extract_package_into_project(dep["raw"], proj)
         info(f"  added dependency {dep['name']} {dep['tag']} ({n} assets)")
@@ -538,7 +540,15 @@ def verify_locally(repo, name, unity_version, deps, unity_exe, platforms, keep,
 # --------------------------------------------------------------------------- #
 # unitypackage builder
 # --------------------------------------------------------------------------- #
-def build_unitypackage(repo, install_path, out_file, exclude_prefixes, dep_packages=()):
+def build_unitypackage(repo, install_path, out_file, exclude_prefixes, dep_packages=(),
+                       only_prefix=None, strip_tilde=False):
+    """Pack tracked assets into a .unitypackage.
+
+    only_prefix: if set, pack ONLY assets under this path (used to build a
+    separate sample package). exclude_prefixes still applies.
+    strip_tilde: rewrite `~/` out of install paths so a `Samples~/` source folder
+    lands as an importable `Samples/` (Unity ignores `~`-suffixed folders).
+    """
     tracked = git(repo, "ls-files").splitlines()
     metas = [f for f in tracked if f.endswith(".meta")]
     added, skipped = 0, 0
@@ -550,6 +560,9 @@ def build_unitypackage(repo, install_path, out_file, exclude_prefixes, dep_packa
             asset_rel = meta_rel[:-5]
             if any(asset_rel == p or asset_rel.startswith(p + "/") for p in exclude_prefixes):
                 continue
+            if only_prefix and not (asset_rel == only_prefix
+                                    or asset_rel.startswith(only_prefix + "/")):
+                continue
             abs_meta = os.path.join(repo, meta_rel)
             abs_asset = os.path.join(repo, asset_rel)
             meta_bytes = open(abs_meta, "rb").read()
@@ -560,6 +573,8 @@ def build_unitypackage(repo, install_path, out_file, exclude_prefixes, dep_packa
                 continue
             guid = m.group(1).decode()
             pathname = f"{install_path}/{asset_rel}".replace("\\", "/")
+            if strip_tilde:
+                pathname = pathname.replace("~/", "/")
 
             def add(part, data):
                 ti = tarfile.TarInfo(f"{guid}/{part}")
@@ -601,7 +616,8 @@ def build_unitypackage(repo, install_path, out_file, exclude_prefixes, dep_packa
     os.makedirs(os.path.dirname(out_file), exist_ok=True)
     with open(out_file, "wb") as fh:
         fh.write(gzip.compress(buf.getvalue()))
-    info(f"packed {added} own assets + {len(dep_packages)} bundled deps -> {out_file}")
+    info(f"packed {added} assets + {len(dep_packages)} bundled deps -> {out_file}")
+    return added
 
 
 def extract_package_into_project(raw, proj):
@@ -677,6 +693,13 @@ def main():
         fail(f"tag '{tag}' already exists.")
     branch = git(repo, "rev-parse", "--abbrev-ref", "HEAD")
 
+    # A "sample" path in module.json ships as a SEPARATE <name>.Samples.unitypackage:
+    # excluded from the core package AND the verify (it carries its own deps and is
+    # user-verified). It installs alongside the core, which the buyer imports first.
+    sample = (manifest or {}).get("sample")
+    sample_path = sample if isinstance(sample, str) else (sample or {}).get("path")
+    core_exclude = list(args.exclude) + ([sample_path] if sample_path else [])
+
     # 2. resolve + download the dependency closure ---------------------------
     dep_packages = resolve_dependency_closure(manifest, tok)
 
@@ -695,11 +718,19 @@ def main():
         verify_locally(repo, name, unity_version, deps, unity_exe,
                        args.test_platforms, args.keep_test_project,
                        dep_packages=dep_packages,
-                       build_scene=(manifest or {}).get("buildScene"))
+                       build_scene=(manifest or {}).get("buildScene"),
+                       exclude_prefixes=[sample_path] if sample_path else [])
 
-    # 4. pack (own assets + bundled dependency closure) ----------------------
-    build_unitypackage(repo, install_path, out_file, args.exclude,
+    # 4. pack core (+ bundled deps), and the separate sample package if any ---
+    build_unitypackage(repo, install_path, out_file, core_exclude,
                        dep_packages=dep_packages)
+    sample_out = None
+    if sample_path:
+        sample_out = os.path.join(repo, "dist", f"{name}.Samples.unitypackage")
+        info(f"packing separate sample package from '{sample_path}' ...")
+        if not build_unitypackage(repo, install_path, sample_out, list(args.exclude),
+                                  only_prefix=sample_path, strip_tilde=True):
+            fail(f"sample path '{sample_path}' contains no packable assets.")
 
     # 5. push branch + tag --------------------------------------------------
     info(f"pushing branch '{branch}' ...")
@@ -718,18 +749,32 @@ def main():
         "prerelease": args.prerelease,
     })
     upload_url = rel["upload_url"].split("{")[0]
+
+    def upload(path, asset):
+        info(f"uploading {asset} ...")
+        with open(path, "rb") as fh:
+            api("POST", f"{upload_url}?name={asset}", tok=tok, raw=True,
+                data=fh.read(), headers={"Content-Type": "application/octet-stream"})
+
     asset_name = f"{name}.unitypackage"
-    info("uploading .unitypackage ...")
-    with open(out_file, "rb") as fh:
-        api("POST", f"{upload_url}?name={asset_name}", tok=tok, raw=True,
-            data=fh.read(), headers={"Content-Type": "application/octet-stream"})
+    upload(out_file, asset_name)
+    sample_asset = None
+    if sample_out:
+        sample_asset = f"{name}.Samples.unitypackage"
+        upload(sample_out, sample_asset)
 
     # 6. done ---------------------------------------------------------------
     info("done.")
+    base = f"https://github.com/{owner}/{gh_name}/releases/latest/download"
     print(f"\n  Release : {rel['html_url']}")
     print(f"  Package : {asset_name}")
-    print(f"  Docs link (always newest):")
-    print(f"    https://github.com/{owner}/{gh_name}/releases/latest/download/{asset_name}\n")
+    if sample_asset:
+        print(f"  Sample  : {sample_asset}  (import the core package first)")
+    print(f"  Docs links (always newest):")
+    print(f"    {base}/{asset_name}")
+    if sample_asset:
+        print(f"    {base}/{sample_asset}")
+    print()
 
 
 if __name__ == "__main__":

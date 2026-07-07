@@ -1,3 +1,6 @@
 dist/
 __pycache__/
 .release_token
+release.py.meta
+dist.meta
+__pycache__.meta
