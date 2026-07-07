@@ -481,12 +481,16 @@ def parse_test_results(xml_path):
 
 
 def verify_locally(repo, name, unity_version, deps, unity_exe, platforms, keep,
-                   dep_packages=(), build_scene=None, exclude_prefixes=()):
+                   dep_packages=(), build_scene=None, exclude_prefixes=(),
+                   sample_raw=None):
     info(f"scaffolding throwaway Unity {unity_version} project ({len(deps)} deps) ...")
     proj = scaffold_project(repo, name, unity_version, deps, exclude_prefixes)
     for dep in dep_packages:
         n = extract_package_into_project(dep["raw"], proj)
         info(f"  added dependency {dep['name']} {dep['tag']} ({n} assets)")
+    if sample_raw:
+        n = extract_package_into_project(sample_raw, proj)
+        info(f"  imported sample package to compile-test it ({n} assets)")
     try:
         # --- tests + compile check (per platform) ---
         for platform in platforms:
@@ -693,24 +697,42 @@ def main():
         fail(f"tag '{tag}' already exists.")
     branch = git(repo, "rev-parse", "--abbrev-ref", "HEAD")
 
-    # A "sample" path in module.json ships as a SEPARATE <name>.Samples.unitypackage:
-    # excluded from the core package AND the verify (it carries its own deps and is
-    # user-verified). It installs alongside the core, which the buyer imports first.
+    # A "sample" in module.json ships as a SEPARATE <name>.Samples.unitypackage:
+    # excluded from the CORE package, packed with the ~ stripped so Samples~/ installs
+    # as an importable Samples/, and -- so it is actually tested -- imported into the
+    # verify scaffold (exercising the real shipped artifact). "sample" is a path
+    # string, or {path, packages} where packages are extra UPM deps the sample needs
+    # (e.g. TextMeshPro / Input System) added to the verify scaffold.
     sample = (manifest or {}).get("sample")
-    sample_path = sample if isinstance(sample, str) else (sample or {}).get("path")
+    if isinstance(sample, str):
+        sample_path, sample_packages = sample, {}
+    else:
+        sample = sample or {}
+        sample_path, sample_packages = sample.get("path"), sample.get("packages", {})
     core_exclude = list(args.exclude) + ([sample_path] if sample_path else [])
 
     # 2. resolve + download the dependency closure ---------------------------
     dep_packages = resolve_dependency_closure(manifest, tok)
 
-    # 3. local Unity verify (compile + tests + Windows build) ---------------
+    # 3. pack the separate sample package early (so the verify can import it) -
+    sample_out, sample_raw = None, None
+    if sample_path:
+        sample_out = os.path.join(repo, "dist", f"{name}.Samples.unitypackage")
+        info(f"packing separate sample package from '{sample_path}' ...")
+        if not build_unitypackage(repo, install_path, sample_out, list(args.exclude),
+                                  only_prefix=sample_path, strip_tilde=True):
+            fail(f"sample path '{sample_path}' contains no packable assets.")
+        sample_raw = gzip.decompress(open(sample_out, "rb").read())
+
+    # 4. local Unity verify (core source + deps + the imported sample package)
     if args.skip_tests:
         info("skipping local Unity verify (--skip-tests).")
     else:
         parent = find_parent_project(repo)
         unity_version = detect_unity_version(parent, args.unity_version)
         deps = scaffold_deps(parent, detect_tf_version(parent))
-        deps.update((manifest or {}).get("packages", {}))  # UPM deps for the scaffold
+        deps.update((manifest or {}).get("packages", {}))  # core UPM deps
+        deps.update(sample_packages)                        # sample UPM deps (TMP/InputSystem)
         unity_exe = find_unity(unity_version, args.unity)
         if not unity_exe:
             fail(f"could not find Unity {unity_version}. Pass --unity <path> or set "
@@ -719,18 +741,12 @@ def main():
                        args.test_platforms, args.keep_test_project,
                        dep_packages=dep_packages,
                        build_scene=(manifest or {}).get("buildScene"),
-                       exclude_prefixes=[sample_path] if sample_path else [])
+                       exclude_prefixes=[sample_path] if sample_path else [],
+                       sample_raw=sample_raw)
 
-    # 4. pack core (+ bundled deps), and the separate sample package if any ---
+    # 5. pack the core package (+ bundled dependency closure) ----------------
     build_unitypackage(repo, install_path, out_file, core_exclude,
                        dep_packages=dep_packages)
-    sample_out = None
-    if sample_path:
-        sample_out = os.path.join(repo, "dist", f"{name}.Samples.unitypackage")
-        info(f"packing separate sample package from '{sample_path}' ...")
-        if not build_unitypackage(repo, install_path, sample_out, list(args.exclude),
-                                  only_prefix=sample_path, strip_tilde=True):
-            fail(f"sample path '{sample_path}' contains no packable assets.")
 
     # 5. push branch + tag --------------------------------------------------
     info(f"pushing branch '{branch}' ...")

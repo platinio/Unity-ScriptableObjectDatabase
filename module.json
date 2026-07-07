@@ -3,7 +3,13 @@
     "version": "2.2.1",
     "installPath": "Assets/ScriptableObjectDatabase",
     "unity": "6000.1",
-    "sample": "Samples~",
+    "sample": {
+        "path": "Samples~",
+        "packages": {
+            "com.unity.ugui": "2.0.0",
+            "com.unity.inputsystem": "1.14.0"
+        }
+    },
     "dependencies": {
         "AdvancedDropdown": { "repo": "platinio/Unity-AdvancedDropdown", "version": "1.1.0" }
     }
