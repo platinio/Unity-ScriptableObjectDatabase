@@ -12,7 +12,8 @@ namespace ArcaneOnyx.RPGSample
         public override void Use(GameObject go)
         {
             var attributes = go.GetComponent<Attributes>();
-
+            if (attributes == null) return;
+            
             foreach (var attributeModifier in attributeModifiers)
             {
                 attributes.GetAttribute(attributeModifier.AttributeDefinition).Modify(attributeModifier.Value);

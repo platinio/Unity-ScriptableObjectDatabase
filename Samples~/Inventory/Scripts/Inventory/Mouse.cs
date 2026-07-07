@@ -11,13 +11,13 @@ namespace ArcaneOnyx.RPGSample
         
         public static bool Raycast(LayerMask layerMask, out RaycastHit raycastHit)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(UnityEngine.InputSystem.Mouse.current.position.ReadValue());
             return Physics.Raycast(ray, out raycastHit, 1000.0f, layerMask);
         }
         
         public static RaycastHit[] RaycastAll()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(UnityEngine.InputSystem.Mouse.current.position.ReadValue());
             return Physics.RaycastAll(ray, 1000.0f);
         }
 
@@ -40,7 +40,7 @@ namespace ArcaneOnyx.RPGSample
         private static List<RaycastResult> GetEventSystemRaycastResults()
         {
             PointerEventData eventData = new PointerEventData(EventSystem.current);
-            eventData.position = Input.mousePosition;
+            eventData.position = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
             List<RaycastResult> raycastResults = new List<RaycastResult>();
 
             var eventSystem = EventSystem.current;

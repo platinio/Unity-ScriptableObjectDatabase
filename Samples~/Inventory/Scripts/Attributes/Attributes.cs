@@ -10,8 +10,7 @@ namespace ArcaneOnyx.RPGSample
     {
         [SerializeField] private List<AttributeValue> attributeValues;
 
-        public AttributeValue GetAttribute(AttributeDefinition attributeDefinition) => attributeValues
-            .Where(x => x.AttributeDefinition == attributeDefinition).FirstOrDefault();
+        public AttributeValue GetAttribute(AttributeDefinition attributeDefinition) => attributeValues.FirstOrDefault(x => x.AttributeDefinition == attributeDefinition);
         
         public void ModifyAttribute(AttributeDefinition attributeDefinition, float v)
         {

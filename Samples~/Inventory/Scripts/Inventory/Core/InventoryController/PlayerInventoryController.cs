@@ -6,7 +6,7 @@ namespace ArcaneOnyx.RPGSample
     {
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.I))
+            if (UnityEngine.InputSystem.Keyboard.current.iKey.wasPressedThisFrame)
             {
                 Toggle();
             }

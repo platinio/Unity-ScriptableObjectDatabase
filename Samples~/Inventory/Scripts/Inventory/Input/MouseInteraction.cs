@@ -6,7 +6,7 @@ namespace ArcaneOnyx.RPGSample
     {
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame)
             {
                 TryInteract();
             }
