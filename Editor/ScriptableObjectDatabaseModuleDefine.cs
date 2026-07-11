@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEngine;
 
-namespace ArcaneOnyx.ScriptableObjectDatabase.Editor
+namespace ArcaneOnyx.ModuleDefines
 {
     // Presence of this module declares MODULE_SCRIPTABLE_OBJECT_DATABASE_EXIST so other
     // modules can gate optional integration code behind
