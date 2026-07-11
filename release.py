@@ -183,8 +183,11 @@ def download_release_package(slug, tok):
     name, so older releases with versioned filenames still work.
     """
     rel = api("GET", f"{API}/repos/{slug}/releases/latest", tok=tok)
-    asset = next((a for a in rel.get("assets", [])
-                  if a["name"].endswith(".unitypackage")), None)
+    packs = [a for a in rel.get("assets", []) if a["name"].endswith(".unitypackage")]
+    # a module release may also carry a separate <name>.Samples.unitypackage;
+    # always bundle the CORE package, never the sample one.
+    core = [a for a in packs if not a["name"].endswith(".Samples.unitypackage")]
+    asset = (core or packs)[0] if (core or packs) else None
     if not asset:
         fail(f"latest release of {slug} ({rel.get('tag_name')}) has no "
              f".unitypackage asset. Release that module first.")

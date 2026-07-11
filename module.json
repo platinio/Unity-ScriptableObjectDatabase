@@ -1,6 +1,6 @@
 {
     "name": "ScriptableObjectDatabase",
-    "version": "2.2.1",
+    "version": "2.2.2",
     "installPath": "Assets/ScriptableObjectDatabase",
     "unity": "6000.1",
     "sample": {
