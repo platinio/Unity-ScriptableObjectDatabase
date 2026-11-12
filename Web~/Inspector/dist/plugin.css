@@ -1,17 +1,17 @@
-._picker_xmtfk_1 {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-picker {
   display: flex;
   align-items: center;
   gap: var(--hf-space-2);
   min-width: 0;
 }
 
-._choice_xmtfk_8 {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-choice {
   flex: 1;
   min-width: 0;
   text-align: left;
 }
 
-._list_xmtfk_14 {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-list {
   display: flex;
   flex-direction: column;
   gap: var(--hf-space-2);
@@ -19,14 +19,14 @@
   min-width: 16rem;
 }
 
-._list_xmtfk_14 ul {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-list ul {
   margin: 0;
   padding: 0;
   list-style: none;
   overflow: auto;
 }
 
-._option_xmtfk_29 {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-option {
   display: flex;
   align-items: center;
   gap: var(--hf-space-2);
@@ -34,32 +34,32 @@
   cursor: pointer;
 }
 
-._option_xmtfk_29:hover,
-._option_xmtfk_29:focus-visible {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-option:hover,
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-option:focus-visible {
   background: var(--hf-color-hover);
 }
 
-._option_xmtfk_29[aria-selected='true'] {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-option[aria-selected='true'] {
   background: var(--hf-color-selection);
   color: var(--hf-color-on-selection);
 }
 
-._search_xmtfk_47 {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-search {
   padding: var(--hf-space-1) var(--hf-space-2);
 }
 
-._noIcon_xmtfk_51 {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-noIcon {
   display: inline-block;
   width: 1.25rem;
   height: 1.25rem;
 }
 
-._problem_xmtfk_57 {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-problem {
   margin: 0;
   color: var(--hf-color-error);
 }
 
-._muted_xmtfk_62 {
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-muted {
   color: var(--hf-color-text-muted);
 }
 /*$vite$:1*/

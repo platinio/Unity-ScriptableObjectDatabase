@@ -1,13 +1,13 @@
 var hefestoModulePlugin = (function(_hefesto_inspector, _hefesto_primitives, _hefesto_unity, react, react_jsx_runtime) {
 	var DatabaseItemDrawer_module_default = {
-		picker: "_picker_xmtfk_1",
-		choice: "_choice_xmtfk_8",
-		list: "_list_xmtfk_14",
-		option: "_option_xmtfk_29",
-		search: "_search_xmtfk_47",
-		noIcon: "_noIcon_xmtfk_51",
-		problem: "_problem_xmtfk_57",
-		muted: "_muted_xmtfk_62"
+		picker: "arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-picker",
+		choice: "arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-choice",
+		list: "arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-list",
+		option: "arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-option",
+		search: "arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-search",
+		noIcon: "arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-noIcon",
+		problem: "arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-problem",
+		muted: "arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-muted"
 	};
 	// PropertyDrawers/databaseItems.ts
 	var ITEM_FIELDS = ["Name", "icon"];
