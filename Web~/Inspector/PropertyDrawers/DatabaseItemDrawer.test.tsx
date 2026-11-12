@@ -277,6 +277,7 @@ describe('ScriptableItemDatabaseSelector', () => {
     draw(fakeUnity({ searchAssets }), damageTypeField('type', null));
 
     await userEvent.click(screen.getByRole('button', { name: 'type: None' }));
+    expect(await screen.findByRole('alert')).toHaveTextContent('Unity is compiling');
     await userEvent.click(await screen.findByRole('button', { name: 'Retry' }));
 
     expect(await screen.findByRole('option', { name: 'Physical' })).toBeInTheDocument();
