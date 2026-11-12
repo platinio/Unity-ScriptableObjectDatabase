@@ -26,15 +26,20 @@
   overflow: auto;
 }
 
-.list li button {
+.option {
   display: flex;
   align-items: center;
   gap: var(--hf-space-2);
-  width: 100%;
-  text-align: left;
+  padding: var(--hf-space-1) var(--hf-space-2);
+  cursor: pointer;
 }
 
-.list li button[aria-pressed='true'] {
+.option:hover,
+.option:focus-visible {
+  background: var(--hf-color-hover);
+}
+
+.option[aria-selected='true'] {
   background: var(--hf-color-selection);
   color: var(--hf-color-on-selection);
 }

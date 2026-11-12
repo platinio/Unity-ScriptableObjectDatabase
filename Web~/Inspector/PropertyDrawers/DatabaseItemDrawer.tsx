@@ -1,8 +1,20 @@
 import type { RendererProps } from '@hefesto/form';
-import { referenceOf, useUnity, type UnityQuestions } from '@hefesto/inspector';
+import {
+  referenceOf,
+  useUnity,
+  type UnityQuestions,
+  type UnityReference,
+} from '@hefesto/inspector';
 import { Button, Popover } from '@hefesto/primitives';
 import { AssetThumbnail, createThumbnailCache, type ThumbnailCache } from '@hefesto/unity';
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type KeyboardEvent,
+  type ReactNode,
+} from 'react';
 
 import styles from './DatabaseItemDrawer.module.css';
 import {
@@ -11,14 +23,10 @@ import {
   type ItemCache,
   type ItemIcon,
 } from './databaseItems.ts';
+import { useDatabaseItems } from './useDatabaseItems.ts';
 
 const ATTRIBUTE = 'ScriptableItemDatabaseSelector';
 const NONE = 'None';
-
-type Loading =
-  | { state: 'loading' }
-  | { state: 'loaded'; items: DatabaseItem[] }
-  | { state: 'failed'; problem: string };
 
 // One cache of items and of thumbnails per page, shared by every field that picks from a database.
 const itemCaches = new WeakMap<UnityQuestions, ItemCache>();
@@ -33,6 +41,10 @@ function cachesFor(unity: UnityQuestions): { items: ItemCache; thumbnails: Thumb
   return { items, thumbnails };
 }
 
+function isTheItem(item: DatabaseItem, reference: UnityReference | null): boolean {
+  return reference !== null && item.guid === reference.guid && item.localId === reference.localId;
+}
+
 /**
  * Draws a `[ScriptableItemDatabaseSelector]` reference as a searchable list of one database type's items,
  * with their icons and None, and a button that opens the chosen item's own tab.
@@ -40,43 +52,36 @@ function cachesFor(unity: UnityQuestions): { items: ItemCache; thumbnails: Thumb
 export function DatabaseItemDrawer({ node, readOnly, onChange }: RendererProps) {
   const unity = useUnity();
   const { items: cache, thumbnails } = cachesFor(unity);
+  const isConnected = useSyncExternalStore(
+    unity.bridge.subscribeStatus,
+    unity.bridge.getStatus,
+  ).connected;
   const databaseType = String(node.hints?.attributeValues?.[ATTRIBUTE]?.['DatabaseType'] ?? '');
   const chosen = referenceOf(node);
-  const [loading, setLoading] = useState<Loading>({ state: 'loading' });
+  const { list, refresh } = useDatabaseItems(cache, databaseType);
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
 
-  function load(answer: Promise<DatabaseItem[]>, isCurrent: () => boolean = () => true) {
-    answer.then(
-      (items) => isCurrent() && setLoading({ state: 'loaded', items }),
-      (error: unknown) =>
-        isCurrent() &&
-        setLoading({
-          state: 'failed',
-          problem: error instanceof Error ? error.message : String(error),
-        }),
-    );
-  }
+  const items = list.state === 'loaded' ? list.items : [];
+  const chosenItem = items.find((item) => isTheItem(item, chosen));
+  useLookAgainWhenTheChoiceIsMissing({
+    isMissing:
+      list.state === 'failed' ||
+      (list.state === 'loaded' && chosen !== null && chosenItem === undefined),
+    choice: chosen === null ? '' : `${chosen.guid}/${chosen.localId}`,
+    isConnected,
+    refresh,
+  });
 
-  useEffect(() => {
-    let isCurrent = true;
-    load(cache.itemsOf(databaseType), () => isCurrent);
-    return () => {
-      isCurrent = false;
-    };
-    // load only reads its arguments and setLoading, which never changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cache, databaseType]);
-
-  const items = loading.state === 'loaded' ? loading.items : [];
-  const chosenItem = items.find(
-    (item) => chosen !== null && item.guid === chosen.guid && item.localId === chosen.localId,
+  const shown = items.filter((item) =>
+    item.name.toLowerCase().includes(search.trim().toLowerCase()),
   );
+  const chosenName = chosen?.name ?? NONE;
 
-  function open(isOpening: boolean) {
+  function changeOpen(isOpening: boolean) {
     setIsOpen(isOpening);
     setSearch('');
-    if (isOpening) load(cache.refresh(databaseType));
+    if (isOpening) refresh();
   }
 
   function pick(item: DatabaseItem | null) {
@@ -84,23 +89,28 @@ export function DatabaseItemDrawer({ node, readOnly, onChange }: RendererProps) 
     setIsOpen(false);
   }
 
-  const shown = items.filter((item) =>
-    item.name.toLowerCase().includes(search.trim().toLowerCase()),
-  );
+  function pickTheOnlyMatch(event: KeyboardEvent<HTMLInputElement>) {
+    const onlyMatch = shown.length === 1 ? shown[0] : undefined;
+    if (event.key === 'Enter' && onlyMatch !== undefined) pick(onlyMatch);
+  }
 
   return (
     <span className={styles['picker']}>
-      <ItemIconView icon={chosenItem?.icon ?? null} thumbnails={thumbnails} unity={unity} />
+      <ItemIconView
+        icon={chosenItem?.icon ?? null}
+        thumbnails={thumbnails}
+        isConnected={isConnected}
+      />
       <Popover
         open={isOpen}
-        onOpenChange={open}
+        onOpenChange={changeOpen}
         trigger={
           <Button
             className={styles['choice']}
             disabled={readOnly}
-            aria-label={`Pick ${node.label}`}
+            aria-label={`${node.label}: ${chosenName}`}
           >
-            {chosen?.name ?? NONE}
+            {chosenName}
           </Button>
         }
       >
@@ -111,34 +121,40 @@ export function DatabaseItemDrawer({ node, readOnly, onChange }: RendererProps) 
             placeholder="Search"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
+            onKeyDown={pickTheOnlyMatch}
           />
-          {loading.state === 'failed' ? (
+          {list.state === 'failed' ? (
             <p role="alert" className={styles['problem']}>
-              Unity didn't list the items: {loading.problem}{' '}
-              <Button variant="quiet" onClick={() => load(cache.refresh(databaseType))}>
+              Unity didn't list the items: {list.problem}{' '}
+              <Button variant="quiet" onClick={refresh}>
                 Retry
               </Button>
             </p>
           ) : (
-            <ul aria-label={`Items of ${databaseType}`}>
-              <li>
-                <Button variant="quiet" aria-pressed={chosen === null} onClick={() => pick(null)}>
-                  {NONE}
-                </Button>
-              </li>
+            <ul role="listbox" aria-label={`Items of ${databaseType}`}>
+              <Option isChosen={chosen === null} name={NONE} onPick={() => pick(null)}>
+                {NONE}
+              </Option>
               {shown.map((item) => (
-                <li key={item.id}>
-                  <Button
-                    variant="quiet"
-                    aria-pressed={item === chosenItem}
-                    onClick={() => pick(item)}
-                  >
-                    <ItemIconView icon={item.icon} thumbnails={thumbnails} unity={unity} />
-                    {item.name}
-                  </Button>
-                </li>
+                <Option
+                  key={item.id}
+                  isChosen={item === chosenItem}
+                  name={item.name}
+                  onPick={() => pick(item)}
+                >
+                  <ItemIconView
+                    icon={item.icon}
+                    thumbnails={thumbnails}
+                    isConnected={isConnected}
+                  />
+                  {item.name}
+                </Option>
               ))}
-              {loading.state === 'loading' && <li className={styles['muted']}>Asking Unity…</li>}
+              {list.state === 'loading' && (
+                <li role="presentation" className={styles['muted']}>
+                  Asking Unity…
+                </li>
+              )}
             </ul>
           )}
         </div>
@@ -156,19 +172,74 @@ export function DatabaseItemDrawer({ node, readOnly, onChange }: RendererProps) 
   );
 }
 
+/**
+ * A chosen item missing from the list was most likely added in Unity after the list was read, and a failed
+ * list was most likely asked for while Unity was compiling. Either is asked again once per choice, and
+ * again each time Unity reconnects.
+ */
+function useLookAgainWhenTheChoiceIsMissing({
+  isMissing,
+  choice,
+  isConnected,
+  refresh,
+}: {
+  isMissing: boolean;
+  choice: string;
+  isConnected: boolean;
+  refresh(): void;
+}) {
+  const lookedAgainFor = useRef<string | null>(null);
+  useEffect(() => {
+    if (!isConnected) {
+      lookedAgainFor.current = null;
+      return;
+    }
+    if (!isMissing || lookedAgainFor.current === choice) return;
+    lookedAgainFor.current = choice;
+    refresh();
+  }, [isMissing, choice, isConnected, refresh]);
+}
+
+function Option({
+  isChosen,
+  name,
+  onPick,
+  children,
+}: {
+  isChosen: boolean;
+  name: string;
+  onPick(): void;
+  children: ReactNode;
+}) {
+  return (
+    <li
+      role="option"
+      aria-selected={isChosen}
+      aria-label={name}
+      tabIndex={0}
+      className={styles['option']}
+      onClick={onPick}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onPick();
+        }
+      }}
+    >
+      {children}
+    </li>
+  );
+}
+
 function ItemIconView({
   icon,
   thumbnails,
-  unity,
+  isConnected,
 }: {
   icon: ItemIcon | null;
   thumbnails: ThumbnailCache;
-  unity: UnityQuestions;
+  isConnected: boolean;
 }) {
-  const isConnected = useSyncExternalStore(
-    unity.bridge.subscribeStatus,
-    unity.bridge.getStatus,
-  ).connected;
   if (icon === null) return <span className={styles['noIcon']} aria-hidden="true" />;
   return (
     <AssetThumbnail

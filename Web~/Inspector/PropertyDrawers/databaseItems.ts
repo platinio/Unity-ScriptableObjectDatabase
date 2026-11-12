@@ -33,6 +33,7 @@ export async function itemsOfDatabases(
   unity: UnityQuestions,
   databaseType: string,
 ): Promise<DatabaseItem[]> {
+  if (databaseType === '') return [];
   const shortName = shortNameOf(databaseType);
   const databases = (await unity.searchAssets({ q: '', assetType: shortName })).filter(
     (asset) => asset.type === shortName,
@@ -70,19 +71,31 @@ function iconOf(value: unknown): ItemIcon | null {
  */
 export function createItemCache(unity: UnityQuestions) {
   const answers = new Map<string, Promise<DatabaseItem[]>>();
+  const onTheirWay = new Set<Promise<DatabaseItem[]>>();
+
+  function ask(databaseType: string): Promise<DatabaseItem[]> {
+    const answer = itemsOfDatabases(unity, databaseType);
+    answers.set(databaseType, answer);
+    onTheirWay.add(answer);
+    answer.then(
+      () => onTheirWay.delete(answer),
+      () => {
+        onTheirWay.delete(answer);
+        // A newer answer may already be kept; only this one is forgotten.
+        if (answers.get(databaseType) === answer) answers.delete(databaseType);
+      },
+    );
+    return answer;
+  }
+
   return {
     itemsOf(databaseType: string): Promise<DatabaseItem[]> {
-      let answer = answers.get(databaseType);
-      if (answer === undefined) {
-        answer = itemsOfDatabases(unity, databaseType);
-        answers.set(databaseType, answer);
-        answer.catch(() => answers.delete(databaseType));
-      }
-      return answer;
+      return answers.get(databaseType) ?? ask(databaseType);
     },
+    /** Asks Unity again, unless a question about this type is already on its way, whose answer is new enough. */
     refresh(databaseType: string): Promise<DatabaseItem[]> {
-      answers.delete(databaseType);
-      return this.itemsOf(databaseType);
+      const current = answers.get(databaseType);
+      return current !== undefined && onTheirWay.has(current) ? current : ask(databaseType);
     },
   };
 }

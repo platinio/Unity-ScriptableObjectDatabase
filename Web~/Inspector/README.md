@@ -1,10 +1,10 @@
 # ScriptableObjectDatabase inspector plugin
 
 ScriptableObjectDatabase's drawers for Hefesto's web inspector: a `[ScriptableItemDatabaseSelector]`
-field picks from its database's items, with their icons, as the IMGUI dropdown does. Unity finds this folder by its
-`hefesto-plugin.json` and the inspector page loads `dist/plugin.js`, so the module brings its own
-look without the project's inspector app changing. See
-[Custom web editors](../../../Hefesto/Web~/../Documentation~/guides/custom-web-editors.md).
+field picks from its database's items, with their icons, as the IMGUI dropdown does. Unity finds
+this folder by its `hefesto-plugin.json` and the inspector page loads `dist/plugin.js`, so the
+module brings its own look without the project's inspector app changing. See
+[Custom web editors](https://github.com/platinio/Unity-Hefesto/blob/main/Documentation~/guides/custom-web-editors.md#a-modules-own-plugin).
 
 | Command                  | What it does                                                    |
 | ------------------------ | --------------------------------------------------------------- |
