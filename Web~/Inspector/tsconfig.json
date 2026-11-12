@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["vite/client", "@testing-library/jest-dom/vitest"],
+    "allowImportingTsExtensions": true
+  },
+  "include": ["plugin.ts", "PropertyDrawers", "Editors", "vite.config.ts", "vitest.setup.ts"]
+}

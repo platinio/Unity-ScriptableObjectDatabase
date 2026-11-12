@@ -111,6 +111,8 @@ The dropdown shows all items in the database with their icons. The arrow button 
 
 ![Database dropdown](https://github.com/platinio/Unity-ScriptableObjectDatabase/blob/main/ReadmeResources/customDropdown.png?raw=true)
 
+Hefesto's web inspector draws the same field through this module's plugin in `Web~/Inspector`: a searchable list of the database's items with their icons and None, and a ► button that opens the item in its own tab. There, the items are sorted by name.
+
 ## Querying at Runtime
 
 ```csharp

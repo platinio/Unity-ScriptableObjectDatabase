@@ -1,0 +1,3 @@
+node_modules
+# Committed, so people who use the module need no Node, even where a parent folder ignores dist.
+!dist

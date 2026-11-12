@@ -1,0 +1,65 @@
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-picker {
+  display: flex;
+  align-items: center;
+  gap: var(--hf-space-2);
+  min-width: 0;
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-choice {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hf-space-2);
+  max-height: 22rem;
+  min-width: 16rem;
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-option {
+  display: flex;
+  align-items: center;
+  gap: var(--hf-space-2);
+  padding: var(--hf-space-1) var(--hf-space-2);
+  cursor: pointer;
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-option:hover,
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-option:focus-visible {
+  background: var(--hf-color-hover);
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-option[aria-selected='true'] {
+  background: var(--hf-color-selection);
+  color: var(--hf-color-on-selection);
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-search {
+  padding: var(--hf-space-1) var(--hf-space-2);
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-noIcon {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-problem {
+  margin: 0;
+  color: var(--hf-color-error);
+}
+
+.arcaneonyx-scriptableobjectdatabase-PropertyDrawers-DatabaseItemDrawer-muted {
+  color: var(--hf-color-text-muted);
+}
+/*$vite$:1*/

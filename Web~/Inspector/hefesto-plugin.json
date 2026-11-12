@@ -1,0 +1,6 @@
+{
+  "id": "arcaneonyx.scriptableobjectdatabase",
+  "hefesto": 1,
+  "entry": "dist/plugin.js",
+  "styles": "dist/plugin.css"
+}
