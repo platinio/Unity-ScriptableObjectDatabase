@@ -1,0 +1,60 @@
+._picker_s6fik_1 {
+  display: flex;
+  align-items: center;
+  gap: var(--hf-space-2);
+  min-width: 0;
+}
+
+._choice_s6fik_8 {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+._list_s6fik_14 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hf-space-2);
+  max-height: 22rem;
+  min-width: 16rem;
+}
+
+._list_s6fik_14 ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: auto;
+}
+
+._list_s6fik_14 li button {
+  display: flex;
+  align-items: center;
+  gap: var(--hf-space-2);
+  width: 100%;
+  text-align: left;
+}
+
+._list_s6fik_14 li button[aria-pressed='true'] {
+  background: var(--hf-color-selection);
+  color: var(--hf-color-on-selection);
+}
+
+._search_s6fik_42 {
+  padding: var(--hf-space-1) var(--hf-space-2);
+}
+
+._noIcon_s6fik_46 {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+._problem_s6fik_52 {
+  margin: 0;
+  color: var(--hf-color-error);
+}
+
+._muted_s6fik_57 {
+  color: var(--hf-color-text-muted);
+}
+/*$vite$:1*/

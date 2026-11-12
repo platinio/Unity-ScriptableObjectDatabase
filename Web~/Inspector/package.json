@@ -1,0 +1,35 @@
+{
+  "name": "arcaneonyx.scriptableobjectdatabase-inspector-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "watch": "vite build --watch",
+    "test": "vitest run",
+    "update-hefesto": "npm ci --prefix \"../../../Hefesto/Web~\" && npm run build:packages --prefix \"../../../Hefesto/Web~\""
+  },
+  "dependencies": {
+    "@hefesto/form": "file:../../../Hefesto/Web~/packages/form",
+    "@hefesto/inspector": "file:../../../Hefesto/Web~/packages/inspector",
+    "@hefesto/primitives": "file:../../../Hefesto/Web~/packages/primitives",
+    "@hefesto/shell": "file:../../../Hefesto/Web~/packages/shell",
+    "@hefesto/transport": "file:../../../Hefesto/Web~/packages/transport",
+    "@hefesto/unity": "file:../../../Hefesto/Web~/packages/unity",
+    "@hefesto/widgets": "file:../../../Hefesto/Web~/packages/widgets",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@hefesto/plugin-build": "file:../../../Hefesto/Web~/packages/plugin-build",
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.8",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "jsdom": "30.1.3",
+    "typescript": "6.0.3",
+    "vite": "8.3.5",
+    "vitest": "5.1.0"
+  }
+}
